@@ -1,0 +1,148 @@
+.seller-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+  display: flex;
+  height: 16vh;
+  color: white;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+// style serch
+
+#searchbar {
+  width: 70%;
+  --border-radius: 16px;
+  --padding-start: 0;
+  --padding-end: 0;
+  font-family: Quicksand;
+  right: 4px;
+}
+
+.itens-row {
+  margin-top: 2%;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --background: #242351;
+  --padding-end: 0;
+  --padding-start: 0;
+  --color: white;
+  --border-color: white;
+}
+.icons-search {
+  font-size: 28px;
+  padding: 3px;
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+
+// cabecalho
+.btn-back {
+  background-color: #ffff00 !important ;
+  border-radius: 50%;
+  width: 48px !important;
+  height: 48px !important;
+  margin-left: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.txt-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-prod {
+  width: 108px;
+  height: 64px;
+}
+
+.products-imagem {
+  border: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  margin-right: 4%;
+}
+.container-cards {
+  margin-top: 40%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Quicksand;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+}
+span.Bold-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+span.qtd-estoque {
+  color: rgb(218, 38, 25);
+
+  font-size: 12px;
+}
+
+.Values-card {
+  font-size: 12px;
+}
+
+span.Bold-title-color {
+  color: black;
+  font-weight: bold;
+}
+
+.qtd-estoque {
+  color: rgb(218, 38, 25);
+}
+
+//rodapé
+
+.baseboard {
+  background-color: #242351;
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  position: fixed;
+}
+.total-din {
+  color: red;
+  font-size: 16px;
+  margin-right: 10%;
+}
+
+ion-button .btn-remove {
+  background-color: #ffff00 !important ;
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  margin-left: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

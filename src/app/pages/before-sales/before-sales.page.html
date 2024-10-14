@@ -1,0 +1,153 @@
+<ion-app color="primary">
+  <ion-menu *ngIf="isAuthenticated" contentId="main-content" menuId="main-menu">
+    <ion-header class="menu-header">
+      <ion-toolbar>
+        <div class="container">
+          <img class="logo" src="../../../assets/img/logo.png" />
+          <h1 class="title-empresa ion-text ion-text-bold">LASER PRÉ VENDA</h1>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list class="container-routers">
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="this.router.navigateByUrl('/base-costumer')">
+            <ion-icon
+              name="person-add"
+              slot="start"
+              class="black-icon"
+            ></ion-icon>
+            <ion-label class="small-font">Cadastrar Clientes</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="this.router.navigateByUrl('/customer-list')">
+            <ion-icon name="people" slot="start" class="black-icon"></ion-icon>
+            <ion-label class="small-font">Consultar Clientes</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="this.router.navigateByUrl('/product-query')">
+            <ion-icon name="cube" slot="start" class="black-icon"></ion-icon>
+            <ion-label class="small-font">Consultar Produtos</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="this.router.navigateByUrl('/modal-ticket-troca')">
+            <ion-icon
+              name="barcode-outline"
+              slot="start"
+              class="black-icon"
+            ></ion-icon>
+            <ion-label class="small-font">Consultar Tickets de Troca</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle
+          *ngIf="this.existPrinterUser() === true"
+          auto-hide="false"
+        >
+          <ion-item
+            (click)="this.router.navigateByUrl('/printer-registration')"
+          >
+            <ion-icon name="print" slot="start" class="black-icon"></ion-icon>
+            <ion-label class="small-font">Cadastro de Impressoras</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="this.router.navigateByUrl('/settings')">
+            <ion-icon
+              name="settings-sharp"
+              slot="start"
+              class="black-icon"
+            ></ion-icon>
+            <ion-label class="small-font">Configurações</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="logout()">
+            <ion-icon name="log-out" slot="start" class="black-icon"></ion-icon>
+            <ion-label class="small-font">Logout</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <div class="app-header">
+      <ion-buttons class="btn-menu" slot="start">
+        <ion-menu-button menuToggle="main-menu"></ion-menu-button>
+      </ion-buttons>
+      <p class="title-header">Olá, LOJA</p>
+    </div>
+
+    <div class="input-fixed">
+      <ion-searchbar
+        class="custom"
+        placeholder="Consultar clientes"
+        [(ngModel)]="filtro"
+        (input)="filtrarProdutos()"
+        (ionChange)="filtrarProdutos()"
+      ></ion-searchbar>
+    </div>
+
+    <ion-content class="list-products">
+      <ion-card
+        *ngFor="let prevenda of preVenda"
+        (click)="consultaCarrinho(prevenda?.iCodVenda, prevenda?.iSeqVendaDia , 'alteracao')"
+      >
+        <ion-card-content class="card-content">
+          <div class="iSeqVendaDia">{{prevenda.iSeqVendaDia}}</div>
+          <div class="info-card">
+            <ion-card-title class="Values-card">
+              <span class="Bold-title"
+                >{{ prevenda.sNomeCliente || 'SEM CLIENTE ASSOCIADO' }}</span
+              >
+            </ion-card-title>
+            <ion-card-subtitle class="Values-card">
+              <span class="data-label"
+                >DATA: {{ formatDate(prevenda.dVendaDia) }}</span
+              ></ion-card-subtitle
+            >
+            <ion-card-subtitle class="Values-card">
+              <span class="Bold-title"
+                >QTD: {{prevenda.nQtdTotalProd}}</span
+              ></ion-card-subtitle
+            >
+            <ion-card-subtitle class="Values-card">
+              <span
+                class="Bold-title-color"
+                *ngIf="this.prevenda.nValTroca > this.prevenda.nValVenda"
+                >VALOR: R${{formatNumber(prevenda.nValorLiquido )}}</span
+              >
+              <span
+                class="Bold-title-color"
+                *ngIf="this.prevenda.nValTroca < this.prevenda.nValVenda"
+                >VALOR: R${{formatNumber(prevenda.nValVenda)}}</span
+              >
+            </ion-card-subtitle>
+            <ion-card-subtitle
+              *ngIf="this.prevenda.nValTroca > 0 "
+              class="Values-card"
+            >
+              <span class="Bold-title"
+                >VALOR TROCA: R${{formatNumber(prevenda.nValTroca)}}</span
+              >
+            </ion-card-subtitle>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-fab (click)="AbrirCarrinho()">
+        <ion-fab-button color="secondary">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content></div
+></ion-app>

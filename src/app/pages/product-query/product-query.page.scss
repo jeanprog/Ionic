@@ -1,0 +1,364 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+}
+
+.itens-row {
+  display: flex;
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.itens-row-title {
+  display: flex;
+  margin: 4px;
+  font-family: Quicksand;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+#input-product {
+  --border-radius: 24px;
+  font-family: Quicksand;
+  width: 68%;
+}
+/* .title-btn { 
+    background-color:#34245b;// Cor roxa
+    height: 12%;
+    display: flex; 
+    flex-direction: row;
+    
+    
+    justify-content: left;
+    align-items: center;
+} */
+p {
+  color: white;
+  margin-left: 24px;
+
+  font-size: 18px;
+  font-family: Quicksand;
+}
+.logo {
+  width: 16%;
+  height: 16%;
+  border: solid #ffff00;
+  margin-top: 12px;
+}
+
+.btn-menu {
+  background-color: #ffff00;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons-options {
+  color: white;
+  font-size: 24px;
+  font-family: Quicksand;
+}
+.icons-search {
+  display: flex;
+  justify-content: space-between;
+
+  width: 32%;
+}
+
+.content-header {
+  margin-top: 5%;
+}
+
+//aqui está o css do modal
+
+.modal-filter-product {
+  --height: 100vh;
+  --width: 100%;
+  --top: 0;
+  --left: 0;
+  --margin-top: 0;
+  --margin-left: 0;
+}
+
+//cabeçalho Modal
+.modal-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+}
+
+//inputs de  filtro
+
+.inputs-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30%;
+  font-family: Quicksand;
+}
+
+// csss cards
+.img-prod {
+  width: 108px;
+  height: 64px;
+}
+
+.products-imagem {
+  border: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  margin-right: 4%;
+}
+.container-cards {
+  margin-top: 40%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+}
+span.Bold-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+span.qtd-estoque {
+  color: rgb(218, 38, 25);
+
+  font-size: 12px;
+}
+
+.Values-card {
+  font-size: 12px;
+}
+
+span.Bold-title-color {
+  color: #2f610d;
+  font-weight: bold;
+}
+
+.qtd-estoque {
+  color: rgb(218, 38, 25);
+}
+
+@media (min-width: 764px) {
+  ::ng-deep ion-searchbar.custom .searchbar-input {
+    height: 64px !important; /* Ajuste a altura desejada aqui */
+    font-size: 24px !important;
+    --icon-height: 24px;
+  }
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #242351; // Cor roxa
+  }
+
+  .itens-row {
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .itens-row-title {
+    display: flex;
+    margin: 4px;
+    font-family: Quicksand;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+  }
+
+  #input-product {
+    --border-radius: 24px;
+    font-family: Quicksand;
+    width: 68%;
+    height: 10vh;
+  }
+  /* .title-btn { 
+    background-color:#34245b;// Cor roxa
+    height: 12%;
+    display: flex; 
+    flex-direction: row;
+    
+    
+    justify-content: left;
+    align-items: center;
+} */
+  p {
+    color: white;
+    margin-left: 24px;
+
+    font-size: 32px;
+    font-family: Quicksand;
+  }
+  .logo {
+    width: 16%;
+    height: 16%;
+    border: solid #ffff00;
+    margin-top: 12px;
+  }
+
+  .btn-menu {
+    background-color: #ffff00;
+    border-radius: 50%;
+    width: 64px !important;
+    height: 64px !important;
+    margin-left: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icons-options {
+    color: white;
+    font-size: 32px;
+    font-family: Quicksand;
+  }
+
+  .content-header {
+    margin-top: 5%;
+  }
+
+  //aqui está o css do modal
+
+  .modal-filter-product {
+    --height: 100vh;
+    --width: 100%;
+    --top: 0;
+    --left: 0;
+    --margin-top: 0;
+    --margin-left: 0;
+  }
+
+  //cabeçalho Modal
+  .modal-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #242351; // Cor roxa
+  }
+
+  //inputs de  filtro
+
+  .inputs-rows {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30%;
+    font-family: Quicksand;
+  }
+
+  // csss cards
+  .img-prod {
+    width: 108px;
+    height: 64px;
+  }
+
+  .products-imagem {
+    border: solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+
+    margin-right: 4%;
+  }
+  .container-cards {
+    margin-top: 34%;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-start;
+  }
+  span.Bold-title {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  span.qtd-estoque {
+    color: rgb(218, 38, 25);
+
+    font-size: 20px;
+  }
+
+  .Values-card {
+    font-size: 20px;
+  }
+
+  span.Bold-title-color {
+    color: #2f610d;
+    font-weight: bold;
+  }
+
+  .qtd-estoque {
+    color: rgb(218, 38, 25);
+  }
+
+  .icons-options {
+    margin-left: 4px;
+    --color: white;
+    font-size: 48px !important;
+  }
+
+  .icons-search {
+    font-size: 48px !important;
+    padding: 3px;
+    width: 26%;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 8px;
+
+    align-items: center;
+  }
+  .itens-row {
+    margin-top: 2%;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --background: #242351;
+    --padding-end: 0;
+    --padding-start: 0;
+    --color: white;
+    --border-color: white;
+    --height: 200px !important;
+  }
+}

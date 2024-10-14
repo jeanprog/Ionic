@@ -1,0 +1,218 @@
+ion-content.list-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Quicksand;
+  height: calc(
+    80% - 56px
+  ); /* Altura da tela menos a altura do botão flutuante */
+  overflow-y: auto;
+  --ion-safe-area-top: 0;
+  --ion-safe-area-bottom: 56px;
+
+  .scroll-content {
+    padding-bottom: 56px; /* Altura do botão flutuante */
+  }
+}
+
+ion-fab {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  position: fixed;
+  bottom: 4px;
+}
+
+#searchInput {
+  margin-top: 28%;
+  --border-radius: 24px;
+  --height: 100px !important;
+}
+ion-searchbar.custom {
+  margin-top: 28%;
+
+  --placeholder-color: #242351;
+
+  --clear-button-color: #242351;
+
+  --border-radius: 24px;
+}
+
+.iSeqVendaDia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 108px;
+  height: 72px !important;
+  margin-right: 4%;
+  background-color: #242351;
+  color: #ffff00;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+}
+
+span.Bold-title {
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.Values-card {
+  font-size: 14px;
+}
+
+span.Bold-title-color {
+  color: #0280d3;
+  font-weight: bold;
+}
+
+.data-label {
+  color: black;
+}
+
+// css - cabeçalho
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+  height: 12%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+p {
+  color: white;
+  margin-right: 32%;
+  font-family: Quicksand;
+  font-size: 28px;
+}
+.logo {
+  width: 16%;
+  height: 32%;
+  border: solid #ffff00;
+  margin-top: 12px;
+}
+
+.btn-menu {
+  background-color: #ffff00;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu-header {
+  background-color: #242351;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Quicksand;
+}
+.small-font {
+  font-size: 14px; /* Ajuste o tamanho da fonte conforme necessário */
+  font-family: Quicksand;
+}
+.black-icon {
+  color: black;
+}
+.title-empresa {
+  color: #ffff00;
+  font-size: 16px;
+}
+
+.container {
+  background-color: #242351;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 20vh;
+}
+
+.container-routers {
+  height: 60vh;
+  justify-content: space-between;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 764px) {
+  ion-menu {
+    --min-width: 70%;
+  }
+  ion-searchbar.custom {
+    margin-top: 20%;
+
+    --placeholder-color: #242351;
+
+    --clear-button-color: #242351;
+
+    --border-radius: 24px;
+  }
+
+  ::ng-deep ion-searchbar.custom .searchbar-input {
+    height: 64px !important; /* Ajuste a altura desejada aqui */
+    font-size: 24px !important;
+    --icon-height: 24px;
+  }
+
+  p {
+    color: white;
+    margin-right: 42%;
+    font-family: Quicksand;
+    font-size: 28px;
+  }
+
+  .small-font {
+    font-size: 20px;
+    font-family: Quicksand;
+  }
+  .black-icon {
+    color: black;
+  }
+  .title-empresa {
+    color: #ffff00;
+    font-size: 24px;
+  }
+  .Values-card {
+    font-size: 18px;
+  }
+  span.Bold-title {
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .btn-menu {
+    background-color: #ffff00;
+    border-radius: 50%;
+    width: 64px !important;
+    height: 64px !important;
+    margin-left: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

@@ -1,0 +1,57 @@
+<ion-header class="printer-header">
+  <div class="itens-row-title">
+    <ion-buttons slot="start">
+      <ion-button class="btn-back" (click)="back()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <p>Configurações</p>
+  </div>
+</ion-header>
+<div class="content-settings">
+  <div class="qr-content">
+    <h3>
+      Para configurar o aplicativo leia o código Qrcode para capturar as
+      configurações.
+    </h3>
+    <ion-button class="BtnQrcode" (click)="openScannerServer()">
+      <ion-icon class="icons-btn" name="barcode-sharp"> </ion-icon>
+      <h2 class="title-btn">LEITOR QRCODE (SERVERNAME)</h2></ion-button
+    >
+  </div>
+  <div class="parans-settings">
+    <h4 class="title">Configurações</h4>
+    <ion-toggle
+      labelPlacement="start"
+      (ionChange)="eventSellerDefault($event)"
+      [(ngModel)]="this.sellerDefault"
+      ><ion-label class="label-costum"
+        >Usúario logado como vendedor</ion-label
+      ></ion-toggle
+    ><br /><br />
+    <ion-toggle
+      labelPlacement="start"
+      (ionChange)="eventPreSales($event)"
+      [(ngModel)]="this.preSales"
+      ><ion-label class="label-costum"
+        >Imprimir pré venda
+      </ion-label></ion-toggle
+    ><br /><br />
+    <ion-toggle
+      labelPlacement="start"
+      (ionChange)="eventCheckoutPreVenda($event)"
+      [(ngModel)]="this.checkoutPreVenda"
+      ><ion-label class="label-costum"
+        >Sair ao encerrar pré venda
+      </ion-label></ion-toggle
+    ><br /><br />
+  </div>
+</div>
+
+<footer class="baseboard">
+  <ion-buttons slot="start">
+    <ion-button (click)="submitConfig()" class="btn-submit" type="submit"
+      >Salvar</ion-button
+    >
+  </ion-buttons>
+</footer>

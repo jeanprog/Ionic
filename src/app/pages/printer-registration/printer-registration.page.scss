@@ -1,0 +1,150 @@
+.printer-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+}
+
+p {
+  color: white;
+  margin-left: 24px;
+  font-family: "roboto";
+  font-size: 18px;
+}
+.itens-row-title {
+  display: flex;
+  margin: 4px;
+
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.btn-back {
+  background-color: #ffff00;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-header {
+  margin-top: 5%;
+  border: solid;
+  font-family: Quicksand;
+}
+
+.container-card {
+  margin-top: 20%;
+  font-family: Quicksand;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  font-family: Quicksand;
+}
+span.Bold-title {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Quicksand;
+}
+.Situacao {
+  color: #2f610d;
+  font-weight: bold;
+}
+.active {
+  color: #2f610d;
+}
+
+.inactive {
+  color: rgb(90, 13, 13);
+}
+
+.Bold-subtitle {
+  font-weight: bold;
+  font-size: 14px;
+  color: black;
+}
+.Values-card {
+  margin-top: 12px;
+}
+.btn-test-printer {
+  background-color: #ffff00 !important ;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin: 10px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.baseboard {
+  background-color: #242351;
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Quicksand;
+}
+
+.btn-submit {
+  background-color: #ffff00;
+  color: black;
+  margin: 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: Quicksand;
+}
+.item-form {
+  display: flex;
+  flex-direction: column;
+  font-family: Quicksand;
+}
+.label-costum {
+  color: rgb(94, 94, 94);
+  font-family: Quicksand;
+}
+
+.content-form {
+  margin-top: 12vh;
+  font-family: Quicksand;
+}
+#printerForm {
+  font-family: Quicksand;
+}
+
+.content-btn-test {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 56%;
+}
+
+ion-fab {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  position: fixed;
+  bottom: 4px;
+}

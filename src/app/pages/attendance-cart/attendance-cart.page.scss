@@ -1,0 +1,275 @@
+.cart-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+}
+
+.itens-row {
+}
+
+.baseboard {
+  background-color: #242351;
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  position: fixed;
+}
+.disabled-item {
+  opacity: 0.5; /* Reduz a opacidade para dar a aparência de desativação */
+  pointer-events: none; /* Bloqueia os eventos de clique */
+}
+
+.btn-submit {
+  background-color: #ffff00;
+  color: black;
+  margin: 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: Quicksand;
+}
+#searchbar {
+  width: 70%;
+  --border-radius: 16px;
+  --padding-start: 0;
+  --padding-end: 0;
+  font-family: Quicksand;
+  right: 4px;
+}
+.container-btn {
+  /*   position: absolute;
+  left: 80%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+}
+.itens-row {
+  margin-top: 2%;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --background: #242351;
+  --padding-end: 0;
+  --padding-start: 0;
+  --color: white;
+  --border-color: white;
+}
+.ion-item::part(native) {
+  border-color: white; /* Substitua "white" pela cor desejada */
+}
+.icons-search {
+  font-size: 28px;
+  padding: 3px;
+  width: 30%;
+}
+.icons-options {
+  margin-left: 4px;
+  --color: white;
+  --font-size: 24px;
+}
+.icons-header {
+  color: white;
+  font-size: 24px;
+}
+
+.title-header {
+  margin-left: 24px;
+  font-size: medium;
+  font-family: Quicksand;
+}
+.btn-back {
+  --border-radius: 50%;
+  position: absolute;
+  left: 56vw;
+  top: calc(50% - 28px);
+  margin-bottom: 24px;
+  /*  --width: 54px;
+  height: 54px;
+  position: absolute;
+  left: 80%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+  height: 48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 24vw;
+}
+
+.total-din {
+  color: #ffff00;
+  font-size: 16px;
+  margin-right: 10%;
+}
+.red-text {
+  color: red; /* Define a cor do texto como vermelho */
+}
+
+.minus-sign {
+  margin-right: 5px; /* Adiciona um espaço após o sinal de menos para separá-lo do valor */
+}
+
+// estilos card
+.img-prod {
+  width: 108px;
+  height: 64px;
+}
+
+.products-imagem {
+  border: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+
+  margin-right: 4%;
+}
+.container-cards {
+  margin-top: 50%;
+  height: calc(
+    80% - 56px
+  ); /* Altura da tela menos a altura do botão flutuante */
+  overflow-y: auto;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info-card {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+}
+span.Bold-title {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+span.qtd-estoque {
+  color: rgb(218, 38, 25);
+
+  font-size: 12px;
+}
+
+.Values-card {
+  font-size: 12px;
+}
+
+span.Bold-title-color {
+  color: #2f610d;
+  font-weight: bold;
+}
+
+.qtd-estoque {
+  color: rgb(218, 38, 25);
+}
+
+.container-qtd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+.Container-BalancaQtd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.btn-qtd {
+  font-size: 10px;
+}
+
+@media (min-width: 764px) {
+  .container-cards {
+    margin-top: 32%;
+    height: calc(
+      80% - 56px
+    ); /* Altura da tela menos a altura do botão flutuante */
+    overflow-y: auto;
+  }
+  .icons-search {
+    font-size: 36px;
+    padding: 3px;
+    width: 24%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .total-din {
+    color: #ffff00;
+    font-size: 24px;
+    margin-right: 10%;
+  }
+  .btn-submit {
+    background-color: #ffff00;
+    color: black;
+    margin: 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: Quicksand;
+  }
+
+  span.Bold-title {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  span.qtd-estoque {
+    color: rgb(218, 38, 25);
+
+    font-size: 16px;
+  }
+
+  .Values-card {
+    font-size: 16px;
+  }
+  .container-qtd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28px;
+  }
+  .Container-BalancaQtd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28px;
+  }
+  .title-header {
+    margin-left: 36px;
+    font-size: 24px;
+    font-family: Quicksand;
+  }
+  .icons-header {
+    color: white;
+    font-size: 36px;
+  }
+  .icons-options {
+    margin-left: 4px;
+    --color: white;
+    --font-size: 32px;
+  }
+
+  .itens-row {
+    margin-top: 2%;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --background: #242351;
+    --padding-end: 0;
+    --padding-start: 0;
+    --color: white;
+    --border-color: white;
+    --height: 200px !important;
+  }
+}

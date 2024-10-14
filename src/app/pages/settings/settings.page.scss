@@ -1,0 +1,87 @@
+.printer-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+}
+
+p {
+  color: white;
+  margin-left: 24px;
+  font-family: Quicksand;
+  font-size: 18px;
+}
+.itens-row-title {
+  display: flex;
+  margin: 4px;
+
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+.btn-back {
+  background-color: #ffff00;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content-settings {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+
+  margin-left: 2vh;
+  margin-right: 2vh;
+}
+.parans-settings {
+  margin-top: 4vh;
+}
+.title {
+  font-size: 14px;
+  font-family: Quicksand;
+  font-weight: bold !important;
+}
+h3 {
+  font-size: 14px;
+  font-weight: bold !important ;
+}
+.icons-btn {
+  font-size: 20px;
+  margin-left: 2px;
+}
+.label-costum {
+  font-size: 12px;
+}
+.title-btn {
+  font-size: 12px;
+  font-family: Quicksand;
+}
+.baseboard {
+  background-color: #242351;
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 0;
+  position: fixed;
+}
+.btn-submit {
+  background-color: #ffff00;
+  color: black;
+  margin: 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 12px;
+  font-family: Quicksand;
+}

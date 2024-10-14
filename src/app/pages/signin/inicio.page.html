@@ -1,0 +1,49 @@
+<ion-content class="background-purple" scrollY="true">
+  <!-- Conteúdo da página inicial -->
+
+  <div class="container" scrollY="true">
+    <img class="logo" src="../../../assets/img/logo.png" />
+    <h1 class="title-empresa ion-text ion-text-bold">LASER PRÉ VENDA</h1>
+  </div>
+
+  <form class="container-input" (ngSubmit)="fazerLogin()" scrollY="true">
+    <div class="input-login">
+      <ion-input
+        id="auth-input"
+        class="ion-text-wrap"
+        [(ngModel)]="login"
+        name="login"
+        label="Usuario"
+        l
+        labelPlacement="floating"
+        class="btn-login"
+        required
+      ></ion-input>
+
+      <ion-input
+        id="auth-input"
+        class="ion-text-wrap"
+        label="Senha"
+        labelPlacement="floating"
+        type="password"
+        [(ngModel)]="senha"
+        name="senha"
+        required
+      ></ion-input>
+    </div>
+
+    <ion-button type="submit" color="secondary" class="btn-signin">
+      <ion-text class="ion-text-bold" id="text-btn">ENTRAR</ion-text>
+      <ion-icon name="enter-outline"></ion-icon>
+    </ion-button>
+    <ion-button
+      color="secondary"
+      class="btn-signin"
+      (click)="openModalSettings()"
+    >
+      <ion-text class="ion-text-bold" id="text-btn">CONFIGURAÇÕES</ion-text>
+      <ion-icon name="settings-outline"></ion-icon>
+    </ion-button>
+  </form>
+  <p class="version">Versão do APP: 1.1.14</p>
+</ion-content>

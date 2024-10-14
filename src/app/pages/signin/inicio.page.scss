@@ -1,0 +1,97 @@
+/* .background-purple {
+    background-color: #8a2be2 !important;  // Cor roxa
+    width: 100% !important;
+    height: 100vh !important;
+    border: solid;
+  } */
+
+ion-content.background-purple {
+  --background: #242351; // Cor roxa
+  width: 100% !important;
+  height: 100% !important;
+  display: flex;
+  flex-direction: column !important;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.container-input {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  height: 50%;
+  width: 96%;
+  margin-left: 2%;
+  border-radius: 4%;
+  font-family: Quicksand;
+}
+
+.sc-ion-input-md-h {
+  --label-color: #242351;
+  font-family: Quicksand;
+}
+.title-empresa {
+  color: #ffff00;
+}
+
+ion-button.btn-signin {
+  width: 96%;
+  border-radius: 64px !important;
+  margin-top: 4%;
+  height: 6vh;
+
+  -webkit-box-shadow: 0px 0px 14px -2px rgba(0, 0, 0, 0.71);
+  -moz-box-shadow: 0px 0px 14px -2px rgba(0, 0, 0, 0.71);
+  box-shadow: 0px 0px 14px -2px rgba(0, 0, 0, 0.71);
+  font-family: Quicksand;
+  font-size: 16px;
+}
+.input-login {
+  width: 96%;
+  height: 50%;
+  border-radius: 4px;
+  background-color: #ffffff;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: Quicksand;
+}
+
+.container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8%;
+}
+
+.logo {
+  width: 16%;
+  height: 16%;
+  border: solid #ffff00;
+}
+#auth-input {
+  border-bottom: 0.5px solid #808080;
+  bottom: 8%;
+  width: 96%;
+}
+.ion-text-bold {
+  font-weight: bold;
+}
+
+#text-btn {
+  font-size: 8px;
+}
+.version {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  margin-top: 16px;
+}

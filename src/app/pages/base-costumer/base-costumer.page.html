@@ -1,0 +1,218 @@
+<ion-header class="printer-header">
+  <div class="itens-row-title">
+    <ion-buttons slot="start">
+      <ion-button
+        class="btn-back"
+        (click)="this.router.navigateByUrl('/before-sales')"
+      >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <p>Cadastro de clientes</p>
+  </div>
+</ion-header>
+
+<div class="container-form">
+  <form
+    class="container-input"
+    id="printerForm"
+    [formGroup]="formCadastroCliente"
+    (ngSubmit)="submitClient()"
+  >
+    <ion-item>
+      <ion-label class="label-costum" position="floating">Tipo</ion-label>
+      <ion-select style="width: 100%">
+        <ion-select-option value="A">Física</ion-select-option>
+        <ion-select-option value="I">Júridica</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Nome</ion-label
+      >
+      <ion-input
+        labelPlacement="stacked"
+        formControlName="sNomePessoa"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >CPF</ion-label
+      >
+      <ion-input
+        formControlName="sCPF"
+        inputmode="numeric"
+        name="sCPF"
+        type="text"
+        maxlength="14"
+        (ionInput)="aplicarMascaraCPF()"
+        (ionChange)="checkCpf($event)"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Sexo</ion-label>
+      <ion-select style="width: 100%" formControlName="sSexo">
+        <ion-select-option value="Masculino">Masculino </ion-select-option>
+        <ion-select-option value="Feminino">Feminino</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >CEP</ion-label
+      >
+
+      <ion-input
+        formControlName="sCEP"
+        inputmode="numeric"
+        name="sCEP"
+        type="text"
+        maxlength="9"
+        (ionInput)="aplicarMascaraCep()"
+        (ionChange)="onLoadCep($event)"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Logradouro</ion-label
+      >
+
+      <ion-input
+        labelPlacement="stacked"
+        formControlName="sLogradouro"
+        name="sLogradouro"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label class="label-costum" position="floating">Estado</ion-label>
+      <ion-select
+        style="width: 100%"
+        formControlName="sUF"
+        (ionChange)="onSelectChange($event)"
+      >
+        <ion-select-option
+          *ngFor="let estado of estados | async"
+          [value]="estado.sUF"
+        >
+          {{estado.sUF}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label class="label-costum" position="floating">Cidade</ion-label>
+      <ion-select style="width: 100%" formControlName="sMunicipio">
+        <ion-select-option
+          *ngFor="let municipio of municipios"
+          [value]="municipio.sLocalidade"
+          >{{municipio.sLocalidade}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Numero</ion-label
+      >
+      <ion-input formControlName="sNumero" name="sNumero"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Complemento</ion-label
+      >
+      <ion-input
+        labelPlacement="stacked"
+        formControlName="sComplemento"
+        name="sComplemento"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Bairro</ion-label
+      >
+      <ion-input formControlName="sBairro" name="sBairro"></ion-input>
+    </ion-item>
+    <ion-item>
+      <div style="display: flex; align-items: center">
+        <ion-label
+          stacked
+          class="label-costum"
+          style="
+            flex: 1;
+            text-align: center;
+            min-width: 40px;
+            color: rgb(94, 94, 94);
+          "
+          position="floating"
+          >DDD</ion-label
+        >
+        <ion-label
+          stacked
+          class="label-costum"
+          style="
+            flex: 4;
+            text-align: center;
+            margin-left: 10px;
+            color: rgb(94, 94, 94);
+          "
+          position="floating"
+          >Telefone</ion-label
+        >
+      </div>
+
+      <div style="display: flex; align-items: center">
+        <ion-input
+          style="flex: 1; margin-right: 5px"
+          type="text"
+          formControlName="sDDD"
+          name="sDDD"
+          maxlength="2"
+        ></ion-input>
+        <ion-input
+          style="flex: 4"
+          type="text"
+          formControlName="sNumeroTelefone"
+          name="sNumeroTelefone"
+        ></ion-input>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked class="label-costum" position="floating"
+        >Email</ion-label
+      >
+      <ion-input
+        type="Email"
+        formControlName="sEmail"
+        name="sEmail"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item (click)="openDateModal()">
+      <ion-label stacked class="label-costum" position="floating"
+        >Data de Nascimento</ion-label
+      >
+
+      <ion-input formControlName="dNascimento" name="dNascimento"></ion-input>
+    </ion-item>
+
+    <!-- <ion-modal trigger="open-modal" class="modal-content">
+        <ng-template>
+          <div class="container-Date">
+            <ion-datetime
+              (ionCancel)="closeModal()"
+              presentation="date"
+              [preferWheel]="true"
+            ></ion-datetime>
+          </div>
+        </ng-template>
+      </ion-modal> -->
+  </form>
+</div>
+
+<footer class="baseboard">
+  <ion-buttons slot="start">
+    <ion-button class="btn-submit" type="submit" form="printerForm"
+      >Concluir</ion-button
+    >
+  </ion-buttons>
+</footer>

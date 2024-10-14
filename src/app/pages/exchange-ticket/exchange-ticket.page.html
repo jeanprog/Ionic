@@ -1,0 +1,83 @@
+<ion-header class="seller-header">
+  <div class="item-column" style="display: flex; flex-direction: column">
+    <div style="display: flex; margin-top: 4%">
+      <div class="container-btn">
+        <button class="btn-back" (click)="closeModal()">
+          <ion-icon
+            name="arrow-back-outline"
+            style="font-size: 24px"
+          ></ion-icon>
+        </button>
+      </div>
+
+      <ion-title>Troca de Produtos</ion-title>
+    </div>
+    <ion-item class="itens-row" color="primary">
+      <ion-searchbar
+        id="searchbar"
+        [(ngModel)]="this.ticketTroca"
+      ></ion-searchbar>
+      <div class="icons-search">
+        <ion-icon
+          class="icons-options"
+          name="barcode"
+          (click)="openScannerTicketTroca()"
+        ></ion-icon>
+        <ion-icon
+          class="icons-options"
+          name="add"
+          (click)="onLoadProductTicketDeTroca(this.ticketTroca)"
+        ></ion-icon>
+      </div>
+    </ion-item>
+  </div>
+</ion-header>
+<div class="container-cards">
+  <ion-card
+    *ngFor="let ticket of PreVenda.listaPrevendaItemTroca let index = index"
+  >
+    <ion-card-content class="card-content">
+      <div class="produtcs-imagem">
+        <img
+          [src]="ticket.imagem ? ticket.imagem : 'assets/img/Produto-Sem-Imagem.jpg'"
+          class="img-prod"
+        />
+      </div>
+      <div class="info-card">
+        <ion-card-title class="Values-card">
+          <span class="Bold-title">{{ ticket.sDscProduto }}</span>
+        </ion-card-title>
+        <ion-card-subtitle class="Values-card">
+          <span class="bold-title"
+            >REF: {{ ticket.sRefProduto }}</span
+          ></ion-card-subtitle
+        >
+        <ion-card-subtitle class="Values-card">
+          <span class="qtd-estoque"
+            >Valor: {{ticket.nValUnit.toFixed(2) }}</span
+          ></ion-card-subtitle
+        >
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-title-color"
+            >Data da Venda:
+            {{formatarDataUtil(ticket.dDataAtendimento.toString()) }}</span
+          >
+        </ion-card-subtitle>
+      </div>
+      <div class="container-btn">
+        <ion-button
+          class="btn-remove"
+          (click)="onRemoveTroca(index , ticket.sTerminal , ticket.iOrdem)"
+        >
+          <ion-icon name="close" style="font-size: 24px"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<footer class="baseboard">
+  <h3 class="total-din">
+    valorTotalR$ {{valorTotal ? valorTotal.toFixed(2) : valorTotal}}
+  </h3>
+</footer>

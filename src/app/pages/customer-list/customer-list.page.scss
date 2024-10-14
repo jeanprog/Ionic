@@ -1,0 +1,127 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+  font-family: Quicksand;
+}
+.itens-row {
+  display: flex;
+  font-family: Quicksand;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.itens-row-title {
+  display: flex;
+  margin: 4px;
+  font-family: Quicksand;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+#input-client {
+  --border-radius: 24px;
+  font-family: Quicksand;
+  width: 80%;
+}
+/* .title-btn { 
+    background-color:#34245b;// Cor roxa
+    height: 12%;
+    display: flex; 
+    flex-direction: row;
+    
+    
+    justify-content: left;
+    align-items: center;
+} */
+p {
+  color: white;
+  margin-left: 24px;
+  font-family: Quicksand;
+  font-size: 18px;
+}
+.logo {
+  width: 16%;
+  height: 16%;
+  border: solid #ffff00;
+  margin-top: 12px;
+}
+
+.btn-menu {
+  background-color: #ffff00;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons-options {
+  color: white;
+  font-size: 32px;
+  font-family: Quicksand;
+}
+
+.content-header {
+  margin-top: 5%;
+  font-family: Quicksand;
+}
+
+ion-fab {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  position: fixed;
+  bottom: 4px;
+}
+
+// css modal
+
+.modal-filter-product {
+  --height: 100vh;
+  --width: 100%;
+  --top: 0;
+  --left: 0;
+  --margin-top: 0;
+  --margin-left: 0;
+}
+
+//cabeçalho Modal
+.modal-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #242351; // Cor roxa
+  font-family: Quicksand;
+}
+
+//inputs de  filtro
+
+.inputs-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30%;
+  font-family: Quicksand;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-family: Quicksand;
+  margin-top: 40%;
+}
+.custom-label {
+  font-family: Quicksand;
+}

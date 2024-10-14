@@ -1,0 +1,190 @@
+<ion-header class="cart-header">
+  <ion-item class="itens-row" style="margin-left: 12px">
+    <ion-icon
+      class="icons-header"
+      [ngClass]="{'disabled-item': onLoadParamsSeller() === true}"
+      name="person-circle"
+    ></ion-icon>
+    <h3
+      (click)="openSeller()"
+      [ngClass]="{'disabled-item': onLoadParamsSeller() === true || this.paramSellerDefault === true }"
+      class="title-header"
+    >
+      {{ sNomeFunc ? sNomeFunc : 'Selecionar vendedor'}}
+    </h3>
+
+    <div class="container-btn">
+      <div class="container-btn">
+        <ion-button
+          class="btn-back"
+          (click)="openhome($event)"
+          color="secondary"
+        >
+          <ion-icon name="close" style="font-size: 24px"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ion-item>
+  <ion-item class="itens-row" style="margin-left: 12px">
+    <ion-icon class="icons-header" name="person"></ion-icon>
+    <p class="title-header" (click)="openPage()">
+      {{sNomeCliente || 'Selecionar cliente'}}
+    </p>
+  </ion-item>
+
+  <ion-item class="itens-row" color="primary">
+    <ion-searchbar
+      id="searchbar"
+      [(ngModel)]="sRef"
+      (ionChange)="addProduct()"
+    ></ion-searchbar>
+    <div class="icons-search">
+      <ion-icon
+        class="icons-options"
+        (click)="openListProducts()"
+        name="options-outline"
+      ></ion-icon>
+      <ion-icon
+        class="icons-options"
+        name="barcode"
+        (click)="scan()"
+      ></ion-icon>
+      <ion-icon class="icons-options" name="add"></ion-icon>
+    </div>
+  </ion-item>
+  <div class="itens-row-"></div>
+</ion-header>
+<div class="container-cards">
+  <ion-card
+    *ngFor="let product of PreVenda.listaPrevendaItem; let index = index"
+  >
+    <ion-card-content class="card-content">
+      <div class="produtcs-imagem">
+        <img
+          [src]="product.imagem ? product.imagem : 'assets/img/Produto-Sem-Imagem.jpg'"
+          class="img-prod"
+        />
+      </div>
+      <div class="info-card">
+        <ion-card-title class="Values-card">
+          <span class="Bold-title">{{ product.sDscProduto}}</span>
+        </ion-card-title>
+        <ion-card-subtitle class="Values-card">
+          <span class="bold-title"
+            >REF: {{ product.sCodProduto }}</span
+          ></ion-card-subtitle
+        >
+
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-title-color"
+            >Valor Unit.: R${{formatNumber(product.nValUnit)}}</span
+          >
+        </ion-card-subtitle>
+        <ion-card-subtitle class="Values-card">
+          <span class=""
+            >Total do produto: R$ {{(product.nValUnit * product.nQtdProduto
+            ).toFixed(2)}}</span
+          >
+        </ion-card-subtitle>
+        <div
+          class="Container-BalancaQtd"
+          *ngIf="sFlgDecimalQtdProd == 'N' && product?.bBalancaDigital == true"
+        >
+          <ion-button (click)="openAddModalQtdFracionada()">
+            QUANTD.: ${{product.nQtdProduto}}
+          </ion-button>
+          <ion-icon name="trash" (click)="removeItem(index)"></ion-icon>
+        </div>
+        <div class="Container-BalancaQtd" *ngIf="sFlgDecimalQtdProd == 'S'">
+          <ion-button (click)="openAddModalQtdFracionada()">
+            QUANTD.: ${{product.nQtdProduto}}
+          </ion-button>
+          <ion-icon name="trash" (click)="removeItem(index)"></ion-icon>
+        </div>
+        <div
+          class="container-qtd"
+          *ngIf="(this.sFlgDecimalQtdProd == 'N' && product?.bBalancaDigital == false)"
+        >
+          <ion-button
+            class="btn-qtd"
+            color="tertiary"
+            size="small"
+            (click)="removeQuatidade(product.iCodProduto, index)"
+          >
+            <ion-icon name="remove-outline"></ion-icon>
+          </ion-button>
+
+          <span>{{product.nQtdProduto}}</span>
+          <ion-button
+            class="btn-qtd"
+            color="tertiary"
+            size="small"
+            (click)="addQuantidade(product.iCodProduto)"
+          >
+            <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+          </ion-button>
+
+          <ion-button
+            class="btn-qtd"
+            color="danger"
+            size="small"
+            (click)="removeItem(index)"
+          >
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+      <div
+        class="removeSeForAlteracao"
+        *ngIf="this.modeloTela === 'alteracao'"
+        style="font-size: 24px; padding-top: 12px"
+      >
+        <ion-button
+          class="btn-qtd"
+          color="danger"
+          size="small"
+          (click)="removeItem(index)"
+        >
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed"
+  style="margin-bottom: 16%"
+>
+  <ion-fab-button>
+    <ion-icon name="menu"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="start">
+    <ion-fab-button (click)="openModalTroca()" color="danger">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-button (click)="openModalDesconto()" color="success">
+      <ion-icon name="cash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+<footer class="baseboard">
+  <ion-buttons slot="start">
+    <ion-button
+      class="btn-submit"
+      type="submit"
+      form="printerForm"
+      (click)="onSavePreVenda() "
+      >Finalizar</ion-button
+    >
+  </ion-buttons>
+  <h3 class="total-din" [ngClass]="{'red-text': alteraEstilo}">
+    {{ descontoJaAplicado ? 'Valor Total/desc' : 'Valor Total' }}
+    <span *ngIf="alteraEstilo" class="minus-sign">-</span>
+    R$ {{ alteraEstilo ? valorTotal.toFixed(2) : valorTotal.toFixed(2) }}
+  </h3>
+</footer>

@@ -1,0 +1,58 @@
+<ion-header class="desconto-header">
+  <div class="container-btn">
+    <button class="btn-back" (click)="closeModal()">
+      <ion-icon name="arrow-back-outline" style="font-size: 24px"></ion-icon>
+    </button>
+  </div>
+  <div class="txt-column">
+    <ion-title>Desconto </ion-title>
+  </div>
+</ion-header>
+
+<!--  -->
+<ion-content [fullscreen]="true">
+  <h3 style="margin-top: 50%; margin-left: 16px; font-size: 12px">Tipo</h3>
+  <ion-radio-group
+    value="space-between"
+    [(ngModel)]="escolha"
+    (ionChange)="capturarOpcao()"
+  >
+    <ion-item>
+      <ion-radio
+        value="Valor"
+        justify="space-between"
+        [ngClass]="{'checked': escolha === 'Valor'}"
+        color="medium"
+      >
+        Valor</ion-radio
+      >
+    </ion-item>
+    <ion-item>
+      <ion-radio
+        value="Porcentagem"
+        justify="space-between"
+        [ngClass]="{'checked': escolha === 'Porcentagem'}"
+        color="medium"
+        >Porcentagem</ion-radio
+      >
+    </ion-item>
+  </ion-radio-group>
+  <ion-item style="border-color: blue">
+    <ion-label color="medium" position="floating"
+      >Desconto {{ this.escolha === 'Valor' ? 'R$' : '%' }}
+    </ion-label>
+    <ion-input
+      class="input-customizado"
+      type="number"
+      inputmode="numeric"
+      no-arrows
+      [(ngModel)]="valDesconto"
+    ></ion-input>
+  </ion-item>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" (click)="submitValor()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,82 @@
+ion-app {
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color:#34245b;// Cor roxa
+      height: 12%;
+      display: flex; 
+      flex-direction: row;
+      
+      justify-content: space-between;
+      align-items: center;
+  }
+   
+    p {
+      color: white;
+      margin-right: 32%;
+      font-family: 'roboto';
+      font-size: 28px;
+    }
+  
+    .app-content {
+      padding-top: var(--ion-safe-area-top);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      
+      
+    }
+    
+    .btn-menu { 
+      background-color: #FFFF00;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      margin-left: 4%;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+     }
+   
+    .menu-header { 
+      
+      background-color: #34245b;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      
+    }
+    .small-font {
+      font-size: 12px; /* Ajuste o tamanho da fonte conforme necessário */
+    }
+    .black-icon {
+      color: black;
+    }
+    .title-empresa { 
+      color:  #FFFF00;
+      font-size: 16px; 
+    }
+    .logo { 
+      width: 16%;
+      height: 16%;
+      border:solid #FFFF00 ;
+      margin-top: 12px;
+  }
+  
+    .container {
+      
+      background-color: #34245b;
+      justify-content:  center; 
+      display: flex; 
+      flex-direction: column;
+      align-items: center;
+       }
+      
+    
+
+   
+  }

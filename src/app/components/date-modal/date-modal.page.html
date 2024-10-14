@@ -1,0 +1,14 @@
+<div class="content">
+  <ion-datetime
+    class="custom-datetime"
+    presentation="date"
+    [preferWheel]="true"
+    [formControl]="selectedDate"
+    (ionCancel)="dismissModal()"
+  >
+  </ion-datetime>
+  <div class="btns-modal">
+    <ion-button fill="clear" (click)="onDateSelected()">Selecionar</ion-button>
+    <ion-button fill="clear" (click)="dismissModal()">Cancel</ion-button>
+  </div>
+</div>

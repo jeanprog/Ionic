@@ -1,0 +1,20 @@
+<ion-header class="seller-header">
+  <div class="container-btn">
+    <button class="btn-back" (click)="closeModal()">
+      <ion-icon name="arrow-back-outline" style="font-size: 24px"></ion-icon>
+    </button>
+  </div>
+  <div class="txt-column">
+    <ion-title>Consulta de Vendedores </ion-title>
+
+    <h3 style="font-size: 12px">selecionar vendedores</h3>
+  </div>
+</ion-header>
+<ion-list class="name-seller" style="margin-top: 36%">
+  <ion-item
+    *ngFor=" let seller of sellers"
+    (click)="selectSeller(seller.sNomFunc , seller.iCodFunc)"
+  >
+    {{seller.sNomFunc}}
+  </ion-item>
+</ion-list>

@@ -1,0 +1,153 @@
+<div class="printer-header">
+  <div class="itens-row-title">
+    <ion-buttons
+      class="btn-back"
+      slot="start"
+      (click)="this.router.navigateByUrl('/before-sales')"
+    >
+      <ion-button>
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <p style="font-family: Quicksand">Lista Impressoras</p>
+  </div>
+</div>
+
+<div class="container-card">
+  <ion-card *ngFor="let printer of printers" (click)="openModal(1)">
+    <ion-card-content class="card-content">
+      <div class="info-card">
+        <ion-card-title class="Values-card">
+          <span class="Bold-title">Descrição: {{printer.sNome}}</span>
+        </ion-card-title>
+        <ion-card-subtitle class="Values-card">
+          <span class="bold-title"
+            >Modelo: {{ printer.iModelo === 0 ? 'Epson' : printer.iModelo === 1
+            ? 'Bematech' : 'Daruma' }}</span
+          ></ion-card-subtitle
+        >
+        <ion-card-subtitle class="Values-card">
+          <span class="qtd-estoque"
+            >Tipo: {{printer.iTipo === 0 ? 'USB' : 'Rede'}}</span
+          ></ion-card-subtitle
+        >
+
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-subtitle">Nome/Caminho: {{printer.sCaminho}} </span>
+        </ion-card-subtitle>
+        <ion-card-subtitle
+          [ngClass]="{'active': printer.sFlgSituacao === 'A', 'inactive': printer.sFlgSituacao === 'I'}"
+          class="Values-card"
+        >
+          <div class="Situacao">
+            <span>{{printer.sFlgSituacao === 'A' ? 'Ativo' : 'Inativo'}}</span>
+          </div>
+        </ion-card-subtitle>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab>
+    <ion-fab-button
+      (click)="openModal(0)"
+      color="secondary"
+      *ngIf="this.printers.length < 0"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-button *ngIf="this.printers.length < 0" (click)="openModal(0)">
+    incluir impressora</ion-button
+  >
+</div>
+
+<ion-modal class="modal-filter-product" trigger="open-modal">
+  <ng-template>
+    <ion-header class="printer-header">
+      <div class="itens-row-title">
+        <ion-buttons slot="start">
+          <ion-button class="btn-back" (click)="closeModal()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <p style="font-family: Quicksand">Impressora</p>
+      </div>
+    </ion-header>
+    <div class="content-form">
+      <form
+        [formGroup]="formCadastroImpressora"
+        class="container-input"
+        (ngSubmit)="submitImpressora()"
+        id="printerForm"
+      >
+        <ion-item>
+          <ion-label class="label-costum" position="floating"
+            >Situação</ion-label
+          >
+          <ion-select formControlName="sFlgSituacao">
+            <ion-select-option value="A">Ativo</ion-select-option>
+            <ion-select-option value="I">Inativo</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked class="label-costum" position="floating"
+            >Nome</ion-label
+          >
+          <ion-input
+            formControlName="sNome"
+            labelPlacement="stacked"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked class="label-costum" position="floating"
+            >Tipo</ion-label
+          >
+          <ion-select
+            formControlName="iTipo"
+            interface="popover"
+            class="custom-select"
+          >
+            <ion-select-option value="0">USB</ion-select-option>
+            <ion-select-option value="1">Rede</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked class="label-costum" position="floating"
+            >Modelo</ion-label
+          >
+          <ion-select formControlName="iModelo">
+            <ion-select-option value="0">Epson</ion-select-option>
+            <ion-select-option value="1">Bematech</ion-select-option>
+            <ion-select-option value="2">Daruma</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked class="label-costum" position="floating"
+            >Nome/Caminho</ion-label
+          >
+          <ion-input
+            formControlName="sCaminho"
+            labelPlacement="stacked"
+          ></ion-input>
+        </ion-item>
+      </form>
+    </div>
+    <ion-buttons class="content-btn-test" slot="start">
+      <ion-button class="btn-test-printer" (click)="testPrinter()">
+        <ion-icon
+          name="print"
+          slot="start"
+          class="icon-printer-test"
+          style="font-size: 24px; margin-left: 8px"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <footer class="baseboard">
+      <ion-buttons slot="start">
+        <ion-button class="btn-submit" type="submit" form="printerForm"
+          >Concluir</ion-button
+        >
+      </ion-buttons>
+    </footer>
+  </ng-template>
+</ion-modal>

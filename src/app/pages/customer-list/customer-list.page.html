@@ -1,0 +1,92 @@
+<ion-content>
+  <div class="app-header">
+    <div class="content-header">
+      <div class="itens-row-title">
+        <ion-buttons class="btn-menu" slot="start">
+          <ion-button (click)="backPage()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <p>CONSULTA DE CLIENTES</p>
+      </div>
+      <div class="itens-row">
+        <ion-searchbar
+          id="input-client"
+          [(ngModel)]="inputClient"
+          (ionChange)="searchClient()"
+          [placeholder]="labelSearch"
+        ></ion-searchbar>
+        <ion-icon
+          class="icons-options"
+          name="options-outline"
+          (click)="openModal()"
+        ></ion-icon>
+        <ion-icon
+          class="icons-options"
+          name="arrow-forward-outline"
+          (click)="searchClient()"
+        ></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-modal class="modal-filter-product" trigger="open-modal">
+    <ng-template>
+      <ion-header class="modal-header">
+        <div class="itens-row-title">
+          <ion-buttons class="btn-menu" slot="start">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="arrow-back-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <p>FILTRAR CLIENTES</p>
+        </div>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="inputs-rows">
+          <ion-item>
+            <ion-select
+              [(ngModel)]="selectedOption"
+              label="Filtrar por"
+              label-placement="stacked"
+              value="Nome"
+            >
+              <ion-select-option value="Nome">Nome</ion-select-option>
+              <ion-select-option value="Cpf">Cpf</ion-select-option>
+              <ion-select-option value="CNPJ">CNPJ</ion-select-option>
+              <ion-select-option value="Código">Código</ion-select-option>
+              <ion-select-option value="Código personalizado"
+                >Código personalizado</ion-select-option
+              >
+              <ion-select-option value="Email">Email</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select
+              label="Posição"
+              label-placement="stacked"
+              value="Somente no inicio"
+              [(ngModel)]="selectedTipo"
+            >
+              <ion-select-option value="Somente no inicio"
+                >Somento no inicio</ion-select-option
+              >
+              <ion-select-option value="Em qualquer posição"
+                >Em qualquer posição</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <div class="results">
+    <ion-item *ngFor="let cliente of clientes" (click)="selectCliente(cliente)">
+      <ion-label class="custom-label"> {{cliente.sNomeCliente}}</ion-label>
+    </ion-item>
+  </div>
+  <ion-fab (click)="this.router.navigateByUrl('/base-costumer')">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button> </ion-fab
+></ion-content>

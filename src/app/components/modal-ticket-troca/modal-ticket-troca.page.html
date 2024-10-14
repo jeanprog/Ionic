@@ -1,0 +1,57 @@
+<ion-header class="seller-header">
+  <div class="container-btn">
+    <button
+      class="btn-back"
+      (click)="this.router.navigateByUrl('/before-sales')"
+    >
+      <ion-icon name="arrow-back-outline" style="font-size: 24px"></ion-icon>
+    </button>
+  </div>
+  <div class="txt-column">
+    <ion-title>Ticket de Troca</ion-title>
+
+    <h3 style="font-size: 12px">LER TICKET DE TROCA</h3>
+  </div>
+</ion-header>
+<div class="container-cards">
+  <ion-card *ngFor="let ticket of listTicketTroca">
+    <ion-card-content class="card-content">
+      <div class="produtcs-imagem">
+        <img
+          [src]="ticket.imagem ? ticket.imagem : 'assets/img/Produto-Sem-Imagem.jpg'"
+          class="img-prod"
+        />
+      </div>
+      <div class="info-card">
+        <ion-card-title class="Values-card">
+          <span class="Bold-title">{{ ticket.descricaoCompleta}}</span>
+        </ion-card-title>
+        <ion-card-subtitle class="Values-card">
+          <span class="bold-title"
+            >REF: {{ ticket.referenciaCompleta }}</span
+          ></ion-card-subtitle
+        >
+        <ion-card-subtitle class="Values-card">
+          <span class="qtd-estoque"
+            >Valor: {{ticket.valorUnit}}</span
+          ></ion-card-subtitle
+        >
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-title-color"
+            >Data da Venda.: {{ticket.dataVenda}}</span
+          >
+        </ion-card-subtitle>
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-title-color"
+            >Nome Vendedor.: {{ticket.nomeVendedor}}</span
+          >
+        </ion-card-subtitle>
+        <ion-card-subtitle class="Values-card">
+          <span class="Bold-title-color"
+            >Nome Cliente.: {{ticket.nomeCliente}}</span
+          >
+        </ion-card-subtitle>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
