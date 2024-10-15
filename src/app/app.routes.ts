@@ -13,11 +13,6 @@ export const routes: Routes = [
   },
 
   {
-    path: 'list-products',
-    loadComponent: () =>
-      import('./pages/Home/list-preVenda.page').then((m) => m.ListProductsPage),
-  },
-  {
     path: 'base-costumer',
     loadComponent: () =>
       import('./pages/base-costumer/base-costumer.page').then(
@@ -87,10 +82,16 @@ export const routes: Routes = [
   },
   {
     path: 'modal-qtd-fracionada',
-    loadComponent: () => import('./components/modal-qtd-fracionada/modal-qtd-fracionada.page').then( m => m.ModalQtdFracionadaPage)
+    loadComponent: () =>
+      import(
+        './components/modal-qtd-fracionada/modal-qtd-fracionada.page'
+      ).then((m) => m.ModalQtdFracionadaPage),
   },
   {
     path: 'modal-ticket-troca',
-    loadComponent: () => import('./components/modal-ticket-troca/modal-ticket-troca.page').then( m => m.ModalTicketTrocaPage)
+    loadComponent: () =>
+      import('./components/modal-ticket-troca/modal-ticket-troca.page').then(
+        (m) => m.ModalTicketTrocaPage
+      ),
   },
 ];

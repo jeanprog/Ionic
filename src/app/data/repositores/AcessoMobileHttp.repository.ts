@@ -29,4 +29,67 @@ export class AcessoMobileHttpRepository implements AcessoMobileGateway {
     let data: Observable<any> = this.http.get(url);
     return data;
   }
+
+  consultaInfoDispositivo(serial: string) {
+    let url =
+      'http://' +
+      this.ipServer +
+      '/api/' +
+      'ConsultaAcessoMobile?serial=' +
+      serial;
+    let data: Observable<any> = this.http.get(url);
+
+    return data;
+  }
+
+  atualizaInfoDispositivoMobile(serial: string) {
+    let url =
+      'http://' +
+      this.ipServer +
+      '/api/' +
+      'AtualizarAcessoMobile?serial=' +
+      serial;
+    let data: Observable<any> = this.http.get(url);
+    return data;
+  }
+
+  insereDispositivo(
+    serial: string,
+    model: string,
+    cordova: string,
+    platform: string,
+    version: string,
+    manufacturer: string
+  ) {
+    let url =
+      'http://' +
+      this.ipServer +
+      '/api/' +
+      'InserirAcessoMobile?model=' +
+      model +
+      '&cordova=' +
+      cordova +
+      '&platform=' +
+      platform +
+      '&version=' +
+      version +
+      '&manufacturer=' +
+      manufacturer +
+      '&serial=' +
+      serial;
+    let data: Observable<any> = this.http.get(url);
+
+    return data;
+  }
+
+  deleteSerialDispositivo(serial: string) {
+    let url =
+      'http://' +
+      this.ipServer +
+      '/api/' +
+      'DeletaAcessoMobile?serial=' +
+      serial;
+    let data: Observable<any> = this.http.get(url);
+    return data;
+  }
 }

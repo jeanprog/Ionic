@@ -32,6 +32,8 @@ import { ModalQtdFracionadaPage } from 'src/app/components/modal-qtd-fracionada/
 import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner';
 import { ExchangeTicketPage } from '../exchange-ticket/exchange-ticket.page';
 import { Device } from '@capacitor/device';
+import AcessoMobileService from 'src/app/auth/AcessoMobile.service';
+import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
 
 @Component({
   selector: 'app-attendance-cart',
@@ -89,14 +91,13 @@ export class AttendanceCartPage implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private modalController: ModalController,
-    private NavParams: NavParams,
-    private LoginService: LoginService,
     private http: HttpClient,
     private toastController: ToastController,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private activatedRoute: ActivatedRoute,
-    private BarcodeScanner: BarcodeScanner
+    private BarcodeScanner: BarcodeScanner,
+    private mobile: AcessoMobileService,
+    private lojaConfig: LojaConfig
   ) {
     this.PreVenda = new PreVenda();
     this.PreVenda.listaPrevendaItem = [];
@@ -105,45 +106,36 @@ export class AttendanceCartPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loginData = this.LoginService.getLoginData();
-    const loginData = this.LoginService.getLoginData();
-    console.log('testando valor nginit', this.iCodVenda);
-
-    console.log('iCodVenda peguei: nginit', this.openedFromModal);
-
-    if (loginData) {
-      this.iCodRede = loginData.parametros.iCodRede;
-      this.iCodLoja = loginData.parametros.iCodLoja;
-      this.percentMaxDesc = loginData.parametros.nPercMaxDesc;
-      console.log(this.percentMaxDesc);
-      this.iCodCaixa = loginData.iCodCaixa;
-      this.sFlgDecimalQtdProd = loginData.parametros.sFlgDecimalQtdProd;
-      /*  'N';  */
-      console.log('parametro utiliza balança', this.sFlgDecimalQtdProd);
-
-      if (this.openedFromModal) {
-        this.preencherTelaPreVenda();
-      }
-      const infoConfig = localStorage.getItem('config');
-      if (infoConfig) {
-        const config = JSON.parse(infoConfig);
-        this.utilPreVenda = config.preSales;
-        if (this.utilPreVenda === true) {
-          this.obterImpressora();
-        }
-      }
-
-      // aqui colocar a chamada do método !.
+    const configParamsPadrao = this.lojaConfig.getConfigLoja();
+    const paramsLoja = this.lojaConfig.getParamsLoja();
+    console.log(paramsLoja, configParamsPadrao);
+    if (!paramsLoja && !configParamsPadrao) {
+      throw new Error('sem parametros ');
+    }
+    this.iCodRede = paramsLoja.parametros.iCodRede;
+    this.iCodLoja = paramsLoja.parametros.iCodLoja;
+    this.percentMaxDesc = paramsLoja.parametros.nPercMaxDesc;
+    this.iCodCaixa = paramsLoja.iCodCaixa;
+    this.sFlgDecimalQtdProd = paramsLoja.parametros.sFlgDecimalQtdProd;
+    this.utilPreVenda = configParamsPadrao.preSales;
+    /*  'N';  */
+    // variavel que define se o modal será de preenchido com informaçoes
+    if (this.openedFromModal) {
+      this.preencherTelaPreVenda();
+    }
+    if (this.utilPreVenda === true) {
+      this.obterImpressora();
     }
 
+    // aqui colocar a chamada do método !.
+
     this.onLoadParamsSeller();
+    this.recuperaVendedorModal();
+    this.recuperacaClienteModal();
 
-    this.route.queryParams.subscribe((params) => {
-      this.sNomeFunc = params['sNomeFunc'] || null;
-
-      this.iCodFunc = +params['iCodFunc'] || null;
-      // Converte para número, ou mantém null
-    });
+    this.carregaAcessoMobile();
+  }
+  recuperacaClienteModal() {
     this.route.queryParams.subscribe((params) => {
       const selectedCliente = {
         sCodPessoa: params['sCodPessoa'],
@@ -160,12 +152,19 @@ export class AttendanceCartPage implements OnInit {
 
       // Aqui você pode usar os dados recebidos como desejar
     });
-    this.carregaAcessoMobile();
+  }
+
+  recuperaVendedorModal() {
+    this.route.queryParams.subscribe((params) => {
+      this.sNomeFunc = params['sNomeFunc'] || null;
+
+      this.iCodFunc = +params['iCodFunc'] || null;
+      // Converte para número, ou mantém null
+    });
   }
   async carregaAcessoMobile() {
     const info = await Device.getInfo();
     const serial = await Device.getId();
-    console.log('não esta chamando aqui', serial);
 
     if (info && serial) {
       let model = info.model;
@@ -175,7 +174,7 @@ export class AttendanceCartPage implements OnInit {
       let manufacturer = info.manufacturer;
       let Serial = serial.identifier;
 
-      this.consultaACessoMobile(
+      this.consultaACessoMobileInfoDevice(
         model,
         cordova,
         platform,
@@ -186,7 +185,7 @@ export class AttendanceCartPage implements OnInit {
     }
   }
 
-  consultaACessoMobile(
+  consultaACessoMobileInfoDevice(
     model: string,
     cordova: string,
     platform: string,
@@ -194,65 +193,31 @@ export class AttendanceCartPage implements OnInit {
     manufacturer: string,
     serial: string
   ) {
-    let url =
-      'http://' +
-      this.ipServer +
-      '/api/' +
-      'ConsultaAcessoMobile?serial=' +
-      serial;
-    let data: Observable<any> = this.http.get(url);
-    data.subscribe((result) => {
-      if (result > 0) {
-        let url =
-          'http://' +
-          this.ipServer +
-          '/api/' +
-          'AtualizarAcessoMobile?serial=' +
-          serial;
-        let data: Observable<any> = this.http.get(url);
-        data.subscribe((result) => {});
-      } else {
-        let url =
-          'http://' +
-          this.ipServer +
-          '/api/' +
-          'InserirAcessoMobile?model=' +
-          model +
-          '&cordova=' +
-          cordova +
-          '&platform=' +
-          platform +
-          '&version=' +
-          version +
-          '&manufacturer=' +
-          manufacturer +
-          '&serial=' +
-          serial;
-        let data: Observable<any> = this.http.get(url);
-        data.subscribe((result) => {
-          console.log(result);
-        });
-      }
+    this.mobile.consultaInfoDispositivo(serial).subscribe({
+      next: (result) => {
+        if (result > 0) {
+          this.mobile.atualizaInfoDispositivoMobile(serial);
+        } else {
+          this.mobile.insereDispositivo(
+            serial,
+            model,
+            cordova,
+            platform,
+            version,
+            manufacturer
+          );
+        }
+      },
     });
   }
+
   deletaSerialMobile() {
     let serial = localStorage.getItem('_capuid');
 
     if (serial) {
-      console.log(serial, 'serial aqui vendo');
-      let url =
-        'http://' +
-        this.ipServer +
-        '/api/' +
-        'DeletaAcessoMobile?serial=' +
-        serial;
-      let data: Observable<any> = this.http.get(url);
-      data.subscribe((result) => {
-        console.log(result, 'foi até o fim da deleção');
-      });
+      this.mobile.deleteSerialDispositivo(serial);
     }
   }
-
   formatNumber(value: number): string {
     return value.toFixed(2); // Define 2 casas decimais
   }
@@ -327,11 +292,8 @@ export class AttendanceCartPage implements OnInit {
     modal.onWillDismiss().then((data) => {
       if (data && data.data) {
         const selectSeller = data.data;
-        console.log('infovendedor', selectSeller);
-
         this.iCodFunc = selectSeller.iCodFunc;
         this.sNomeFunc = selectSeller.sNomeFunc;
-        console.log('info da instância', this.iCodFunc, this.sNomeFunc);
       }
     });
     await modal.present();
@@ -394,7 +356,8 @@ export class AttendanceCartPage implements OnInit {
 
   onLoadParamsSeller() {
     const infoConfig = localStorage.getItem('config');
-    const sellerDefault = this.loginData.parametros.iCodVendedorPadrao;
+    const sellerDefault =
+      this.lojaConfig.getParamsLoja().parametros.iCodVendedorPadrao;
 
     if (infoConfig) {
       const config = JSON.parse(infoConfig);
@@ -862,6 +825,7 @@ export class AttendanceCartPage implements OnInit {
   }
 
   async preencherTelaPreVenda() {
+    console.log('teste chamando preencher tela');
     const loading = await this.loadingController.create({
       message: 'Carregando...',
       spinner: 'circles',
@@ -1007,10 +971,7 @@ export class AttendanceCartPage implements OnInit {
         // capturar informações do desconto
         if (data && data.data) {
           this.qtdFracionada = data.data;
-
           /*  this.PreVendaItem.nQtdProduto = this.qtdFracionada; */
-
-          console.log('valor de desconto', this.qtdFracionada);
           this.PreVenda.listaPrevendaItem.forEach((element) => {
             element.nQtdProduto = this.qtdFracionada;
           });
@@ -1070,24 +1031,6 @@ export class AttendanceCartPage implements OnInit {
       .catch((err) => {
         console.log('Error', err);
       });
-
-    // logica pra teste sem gerar build ;
-    /* let vReferencia = '2000164029023002121';
-    let vRef = vReferencia.substring(1, 13);
-   
-    if (vReferencia.substring(0, 1) == '2' && vReferencia.length) {
-      let vRef = vReferencia.substring(1, 13);
-      this.sRef = vRef;
-      this.addProduct();
-      console.log(this.sRef);
-      let quantidade = vReferencia.substring(vReferencia.length - 6);
-      console.log(quantidade);
-      console.log('case 1 balança');
-    } else {
-      this.sRef = vReferencia;
-      this.addProduct();
-      console.log('case 2 sem balança');
-    } */
   }
 
   addProdutoBalancaDigital(vRef: any, vReferencia: any) {

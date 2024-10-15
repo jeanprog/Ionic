@@ -17,7 +17,7 @@ export class LojaConfig {
 
     if (infoConfig) {
       const config = JSON.parse(infoConfig);
-      console.log(config, 'garanti config');
+
       this.vendedorPadrao = config.sellerDefault;
       return config;
     }
@@ -28,6 +28,7 @@ export class LojaConfig {
     const parametros = localStorage.getItem('LOJA');
     if (parametros) {
       const parametrosLoja = JSON.parse(parametros);
+
       return parametrosLoja;
     }
   }

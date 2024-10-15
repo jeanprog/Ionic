@@ -130,10 +130,6 @@ export class BeforeSalesPage implements OnInit {
   existPrinterUser() {
     return this.lojaService.existPrinterUser();
   }
-  ngOnDestroy(): void {
-    // Certifique-se de cancelar a assinatura para evitar vazamentos de memória
-    this.subscription.unsubscribe();
-  }
 
   logout() {
     localStorage.removeItem('LOJA');
@@ -159,7 +155,6 @@ export class BeforeSalesPage implements OnInit {
         cssClass: 'customModalCart',
       });
       profileModal.present();
-      console.log('aqui estou no before-sales ', iCodVenda, iSeqVendaDia);
     } else {
       presentToast(
         this.toastcontroller,
@@ -170,32 +165,21 @@ export class BeforeSalesPage implements OnInit {
   }
 
   AbrirCarrinho() {
-    const loginData = localStorage.getItem('LOJA');
-    console.log(this.resultQtdDispositivos);
-
-    if (loginData) {
-      const infoLoja = JSON.parse(loginData);
-      this.iQtdDispositivos = infoLoja.parametros.iQtdDispositivos;
-      console.log(
-        this.iQtdDispositivos,
-        this.resultQtdDispositivos,
-        'teste de valores'
+    this.iQtdDispositivos =
+      this.lojaService.getParamsLoja().parametros.iQtdDispositivos;
+    if (this.iQtdDispositivos > this.resultQtdDispositivos) {
+      this.router.navigateByUrl('/attendance-cart');
+    } else {
+      presentToast(
+        this.toastcontroller,
+        'Número de acessos silmutâneos excedidos',
+        'top'
       );
-
-      if (this.iQtdDispositivos > this.resultQtdDispositivos) {
-        this.router.navigateByUrl('/attendance-cart');
-      } else {
-        presentToast(
-          this.toastcontroller,
-          'Número de acessos silmutâneos excedidos',
-          'top'
-        );
-      }
     }
   }
+}
 
-  redirectPageClientes() {}
-  /* 
+/* 
   openScannerTicketDeTroca() {
     this.BarcodeScanner.scan()
       .then((barcodeData) => {
@@ -206,4 +190,3 @@ export class BeforeSalesPage implements OnInit {
         console.log('Error', err);
       });
   } */
-}
