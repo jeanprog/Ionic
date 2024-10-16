@@ -34,6 +34,8 @@ import { ExchangeTicketPage } from '../exchange-ticket/exchange-ticket.page';
 import { Device } from '@capacitor/device';
 import AcessoMobileService from 'src/app/auth/AcessoMobile.service';
 import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
+import { ProdutosService } from 'src/app/core/Services/Produtos.service';
+import { PreVendaService } from 'src/app/core/Services/PreVendaservice';
 
 @Component({
   selector: 'app-attendance-cart',
@@ -97,6 +99,7 @@ export class AttendanceCartPage implements OnInit {
     private loadingController: LoadingController,
     private BarcodeScanner: BarcodeScanner,
     private mobile: AcessoMobileService,
+    private preVendaService: PreVendaService,
     private lojaConfig: LojaConfig
   ) {
     this.PreVenda = new PreVenda();
@@ -370,44 +373,31 @@ export class AttendanceCartPage implements OnInit {
 
     if (sellerDefault > 0) {
       this.paramSellerDefault = true;
-      this.sNomeFunc = this.loginData.parametros.sApelidoVendedorPadrao;
+      this.sNomeFunc =
+        this.lojaConfig.getParamsLoja().parametros.sApelidoVendedorPadrao;
     }
     return this.userSeller;
   }
 
   addProduct() {
     if (this.sRef) {
-      const infoConfig = localStorage.getItem('config');
-      if (infoConfig) {
-        const config = JSON.parse(infoConfig);
-        this.ipServer = config.ip;
-        const url = `http://${this.ipServer}/api/produtos?sRefCompleta=${this.sRef}&iCodRede=${this.iCodRede}&iCodLoja=${this.iCodLoja}`;
+      this.preVendaService.BuscarPreVendaItem(this.sRef).subscribe({
+        next: (result: PreVendaItem) => {
+          console.log(result, 'bateu aqui');
+          if (result.sRefProduto) {
+            const newProduct: PreVendaItem = result;
+            newProduct.nQtdProduto = 1;
+            newProduct.bBalancaDigital = false;
+            newProduct.iCodLoja = this.iCodLoja;
 
-        let data: Observable<any> = this.http.get(url);
-        data.subscribe((result) => {
-          console.log(result);
-          if (result && result.length > 0) {
-            this.PreVendaItem = result[0];
-            this.PreVendaItem.nQtdProduto = 1;
-            this.PreVendaItem.bBalancaDigital = false;
-            this.PreVendaItem.iCodLoja = this.iCodLoja;
-            console.log(this.PreVendaItem, 'aqui resultado');
-
-            if (this.PreVenda.listaPrevendaItem.length == 0) {
-              this.PreVenda.listaPrevendaItem.push(this.PreVendaItem);
-            } else {
-              let existe: boolean = false;
-              this.PreVenda.listaPrevendaItem.forEach((element) => {
-                if (element.iCodProduto == this.PreVendaItem.iCodProduto) {
-                  element.nQtdProduto = element.nQtdProduto + 1;
-                  existe = true;
-                }
-              });
-              if (!existe) {
-                this.PreVenda.listaPrevendaItem.push(this.PreVendaItem);
-              }
-            }
-            this.RetornarValorTotalProdutos();
+            this.PreVenda.listaPrevendaItem =
+              this.preVendaService.atualizarListaPreVenda(
+                this.PreVenda.listaPrevendaItem,
+                newProduct
+              );
+            this.preVendaService.RetornarValorTotalProdutos(
+              this.PreVenda.listaPrevendaItem
+            );
             this.sRef = '';
           } else {
             presentToast(
@@ -418,19 +408,11 @@ export class AttendanceCartPage implements OnInit {
             this.sRef = '';
             return;
           }
-          console.log(
-            'testando movimento final',
-            this.PreVenda.listaPrevendaItem
-          );
-        });
-      } else {
-        presentToast(
-          this.toastController,
-          'erro ao buscar produto tente novamente',
-          'top'
-        );
-        return;
-      }
+        },
+        error: () => {
+          presentToast(this.toastController, 'Erro ao buscar produto', 'top');
+        },
+      });
     }
   }
   async removeItem(index: number) {

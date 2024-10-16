@@ -22,7 +22,7 @@ export class PreVendaHttpRepository implements preVendaGateway {
     }
   }
   listarPreVendasVendedor(iCodVendedor: number): Observable<PreVenda[]> {
-    return this.http.get<any[]>(
+    return this.http.get<PreVenda[]>(
       `http://${this.ipServer}/api/PreVendaVendedor?iCodVendedor=${iCodVendedor}`
     );
   }
