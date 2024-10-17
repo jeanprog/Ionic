@@ -2,12 +2,12 @@
   <ion-item class="itens-row" style="margin-left: 12px">
     <ion-icon
       class="icons-header"
-      [ngClass]="{'disabled-item': onLoadParamsSeller() === true}"
+      [ngClass]="{'disabled-item': regrasVendedorPadrao() === true}"
       name="person-circle"
     ></ion-icon>
     <h3
       (click)="openSeller()"
-      [ngClass]="{'disabled-item': onLoadParamsSeller() === true || this.paramSellerDefault === true }"
+      [ngClass]="{'disabled-item': regrasVendedorPadrao() === true || this.paramSellerDefault === true }"
       class="title-header"
     >
       {{ sNomeFunc ? sNomeFunc : 'Selecionar vendedor'}}

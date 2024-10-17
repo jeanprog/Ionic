@@ -36,6 +36,7 @@ import AcessoMobileService from 'src/app/auth/AcessoMobile.service';
 import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
 import { ProdutosService } from 'src/app/core/Services/Produtos.service';
 import { PreVendaService } from 'src/app/core/Services/PreVendaservice';
+import { Loja } from 'src/app/core/entities/Loja.entity';
 
 @Component({
   selector: 'app-attendance-cart',
@@ -73,7 +74,7 @@ export class AttendanceCartPage implements OnInit {
   iModelo!: number;
   iTipo!: number;
   sEstado!: string;
-  utilPreVenda!: boolean;
+  imprimiPreVenda!: boolean;
   percentMaxDesc!: number;
   selectValorDesc: any;
   descontoJaAplicado: boolean = false;
@@ -88,6 +89,9 @@ export class AttendanceCartPage implements OnInit {
   valorTotalTroca!: number;
   lista!: any;
   StateTroca!: any;
+  paramsLoja!: Loja;
+  regrasPadrao!: any;
+  valorTotaldosProdutos!: number;
 
   constructor(
     public router: Router,
@@ -106,33 +110,33 @@ export class AttendanceCartPage implements OnInit {
     this.PreVenda.listaPrevendaItem = [];
     this.PreVenda.listaPrevendaItemTroca = [];
     this.PreVenda.nValDesconto = 0;
+    this.paramsLoja = this.lojaConfig.getParamsLoja();
+    this.regrasPadrao = this.lojaConfig.getConfigLoja();
   }
 
   ngOnInit() {
-    const configParamsPadrao = this.lojaConfig.getConfigLoja();
-    const paramsLoja = this.lojaConfig.getParamsLoja();
-    console.log(paramsLoja, configParamsPadrao);
-    if (!paramsLoja && !configParamsPadrao) {
+    console.log(this.paramsLoja, this.regrasPadrao);
+    if (!this.paramsLoja && !this.regrasPadrao) {
       throw new Error('sem parametros ');
     }
-    this.iCodRede = paramsLoja.parametros.iCodRede;
-    this.iCodLoja = paramsLoja.parametros.iCodLoja;
-    this.percentMaxDesc = paramsLoja.parametros.nPercMaxDesc;
-    this.iCodCaixa = paramsLoja.iCodCaixa;
-    this.sFlgDecimalQtdProd = paramsLoja.parametros.sFlgDecimalQtdProd;
-    this.utilPreVenda = configParamsPadrao.preSales;
+    this.iCodRede = this.paramsLoja.parametros.iCodRede;
+    this.iCodLoja = this.paramsLoja.parametros.iCodLoja;
+    this.percentMaxDesc = this.paramsLoja.parametros.nPercMaxDesc;
+    this.iCodCaixa = this.paramsLoja.iCodCaixa;
+    this.sFlgDecimalQtdProd = this.paramsLoja.parametros.sFlgDecimalQtdProd;
+    this.imprimiPreVenda = this.regrasPadrao.preSales;
     /*  'N';  */
     // variavel que define se o modal será de preenchido com informaçoes
     if (this.openedFromModal) {
       this.preencherTelaPreVenda();
     }
-    if (this.utilPreVenda === true) {
+    if (this.imprimiPreVenda === true) {
       this.obterImpressora();
     }
 
     // aqui colocar a chamada do método !.
 
-    this.onLoadParamsSeller();
+    this.regrasVendedorPadrao();
     this.recuperaVendedorModal();
     this.recuperacaClienteModal();
 
@@ -314,7 +318,40 @@ export class AttendanceCartPage implements OnInit {
       if (data && data.data) {
         const selectProduct = data.data;
         console.log('atendence cart está aqui ', selectProduct);
+
         if (selectProduct) {
+          this.PreVendaItem = selectProduct;
+          this.PreVendaItem.nQtdProduto = 1;
+          this.PreVendaItem.bBalancaDigital = false;
+          this.PreVendaItem.iCodLoja = this.iCodLoja;
+
+          console.log(this.PreVendaItem, 'aqui resultado');
+
+          // Call the service to verify the discount
+          const { desconto, descontoAplicado } =
+            this.preVendaService.VerificaDesconto(
+              this.PreVenda.nValDesconto,
+              this.openedFromModal
+            );
+
+          this.PreVenda.nValDesconto = desconto;
+          this.descontoJaAplicado = descontoAplicado;
+
+          if (descontoAplicado === true) {
+            presentToast(this.toastController, 'DESCONTO REMOVIDO', 'top');
+          }
+
+          // Continue with adding the product to the list
+          this.PreVenda.listaPrevendaItem =
+            this.preVendaService.atualizarListaPreVenda(
+              this.PreVenda.listaPrevendaItem,
+              this.PreVendaItem
+            );
+
+          this.calcularTotalVenda();
+          console.log('lista de itens ', this.PreVenda.listaPrevendaItem);
+        }
+        /*   if (selectProduct) {
           this.PreVendaItem = selectProduct;
           this.PreVendaItem.nQtdProduto = 1;
           this.PreVendaItem.bBalancaDigital = false;
@@ -349,7 +386,7 @@ export class AttendanceCartPage implements OnInit {
           console.log('lista de itens ', this.PreVenda.listaPrevendaItem);
         } else {
           return;
-        }
+        } */
       } else {
         return;
       }
@@ -357,21 +394,15 @@ export class AttendanceCartPage implements OnInit {
     await modal.present();
   }
 
-  onLoadParamsSeller() {
-    const infoConfig = localStorage.getItem('config');
-    const sellerDefault =
-      this.lojaConfig.getParamsLoja().parametros.iCodVendedorPadrao;
-
-    if (infoConfig) {
-      const config = JSON.parse(infoConfig);
-      this.userSeller = config.sellerDefault;
-    }
+  regrasVendedorPadrao() {
+    const icodVendedorPadrao = this.paramsLoja.parametros.iCodVendedorPadrao;
+    this.userSeller = this.regrasPadrao.sellerDefault;
 
     if (this.userSeller === true) {
-      this.sNomeFunc = this.loginData.sApelido;
+      this.sNomeFunc = this.lojaConfig.getParamsLoja().sApelido;
     }
 
-    if (sellerDefault > 0) {
+    if (icodVendedorPadrao > 0) {
       this.paramSellerDefault = true;
       this.sNomeFunc =
         this.lojaConfig.getParamsLoja().parametros.sApelidoVendedorPadrao;
@@ -383,7 +414,6 @@ export class AttendanceCartPage implements OnInit {
     if (this.sRef) {
       this.preVendaService.BuscarPreVendaItem(this.sRef).subscribe({
         next: (result: PreVendaItem) => {
-          console.log(result, 'bateu aqui');
           if (result.sRefProduto) {
             const newProduct: PreVendaItem = result;
             newProduct.nQtdProduto = 1;
@@ -395,14 +425,12 @@ export class AttendanceCartPage implements OnInit {
                 this.PreVenda.listaPrevendaItem,
                 newProduct
               );
-            this.preVendaService.RetornarValorTotalProdutos(
-              this.PreVenda.listaPrevendaItem
-            );
+            this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
             this.sRef = '';
           } else {
             presentToast(
               this.toastController,
-              'produto por descrição somente abrindo a consulta',
+              'Produto por descrição somente abrindo a consulta',
               'top'
             );
             this.sRef = '';
@@ -469,14 +497,30 @@ export class AttendanceCartPage implements OnInit {
       valor += element.nValTot;
     });
     return valor;
-    console.log('valor total dos produtos troca', valor);
   }
+
   calcularTotalVenda() {
+    const { valorFinal, valorTotalTroca, valorTotalProdutos } =
+      this.preVendaService.calcularTotalVenda(
+        this.PreVenda,
+        this.selectValorDesc,
+        this.percentMaxDesc,
+        this.sFlgDecimalQtdProd
+      );
+
+    this.valorTotal = valorFinal;
+    this.valorTotalTroca = valorTotalTroca;
+    this.valorTotaldosProdutos = valorTotalProdutos;
+    this.alteraEstilo = valorFinal < valorTotalTroca;
+  }
+
+  calcularTotalVenda_old() {
     this.valorTotal = 0;
     this.valorTotalTroca = 0;
 
     let ValorTotalProdutos = this.RetornarValorTotalProdutos();
     let valorTotalTroca = this.RetornaValorTotalTroca();
+
     console.log('troca:', valorTotalTroca, 'produto:', ValorTotalProdutos);
     if (ValorTotalProdutos >= valorTotalTroca) {
       console.log('estou nesa condição');
@@ -711,7 +755,7 @@ export class AttendanceCartPage implements OnInit {
 
       // Verifica se a utilPreVenda é verdadeira
       console.log(this.PreVenda);
-      if (this.utilPreVenda === true) {
+      if (this.imprimiPreVenda === true) {
         const alert = await this.alertController.create({
           header: 'Confirmar',
           message: ' Deseja imprimir pré-venda ? ',

@@ -31,6 +31,7 @@ export class LojaConfig {
 
       return parametrosLoja;
     }
+    return null;
   }
 
   public setParametrosLoja(parametrosLoja: Loja) {

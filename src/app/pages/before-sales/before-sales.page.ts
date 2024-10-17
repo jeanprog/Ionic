@@ -46,6 +46,7 @@ export class BeforeSalesPage implements OnInit {
   ticketTroca!: string;
   configData = this.lojaConfig.getConfigLoja();
   configLoja = this.lojaConfig.getConfigLoja();
+  lojaParams = this.lojaConfig.getParamsLoja();
 
   constructor(
     public menuCtrl: MenuController,
@@ -65,8 +66,9 @@ export class BeforeSalesPage implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.lojaParams);
     if (this.configData.sellerDefault === true) {
-      this.listarPreVendaVendedor(this.configLoja?.infoLoja.iCodVendedorPadrao);
+      this.listarPreVendaVendedor(this.lojaParams.iCodVendedorPadrao);
     }
 
     // this.authService.getUser();

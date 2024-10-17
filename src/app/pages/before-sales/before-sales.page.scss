@@ -95,14 +95,16 @@ span.Bold-title-color {
   z-index: 100;
   background-color: #242351; // Cor roxa
   height: 12%;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
 p {
   color: white;
-  margin-right: 32%;
+  margin-right: 22%;
   font-family: Quicksand;
   font-size: 28px;
 }
