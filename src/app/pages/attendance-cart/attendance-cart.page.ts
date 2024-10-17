@@ -351,42 +351,6 @@ export class AttendanceCartPage implements OnInit {
           this.calcularTotalVenda();
           console.log('lista de itens ', this.PreVenda.listaPrevendaItem);
         }
-        /*   if (selectProduct) {
-          this.PreVendaItem = selectProduct;
-          this.PreVendaItem.nQtdProduto = 1;
-          this.PreVendaItem.bBalancaDigital = false;
-          this.PreVendaItem.iCodLoja = this.iCodLoja;
-          console.log(this.PreVendaItem, 'aqui resultado');
-          if (this.PreVenda.nValDesconto > 0 && this.openedFromModal === true) {
-            this.PreVenda.nValDesconto = 0;
-            console.log(
-              'verificando valor aqui na hora de preencher a variavel',
-              this.PreVenda.nValDesconto
-            );
-            this.descontoJaAplicado = false;
-            presentToast(this.toastController, 'DESCONTO REMOVIDO', 'top');
-          }
-
-          if (this.PreVenda.listaPrevendaItem.length == 0) {
-            this.PreVenda.listaPrevendaItem.push(this.PreVendaItem);
-          } else {
-            let existe: boolean = false;
-            this.PreVenda.listaPrevendaItem.forEach((element) => {
-              if (element.iCodProduto == this.PreVendaItem.iCodProduto) {
-                element.nQtdProduto = element.nQtdProduto + 1;
-                existe = true;
-              }
-            });
-            if (!existe) {
-              this.PreVenda.listaPrevendaItem.push(this.PreVendaItem);
-            }
-          }
-
-          this.calcularTotalVenda();
-          console.log('lista de itens ', this.PreVenda.listaPrevendaItem);
-        } else {
-          return;
-        } */
       } else {
         return;
       }
@@ -477,7 +441,7 @@ export class AttendanceCartPage implements OnInit {
     await alert.present();
   }
 
-  RetornarValorTotalProdutos(): number {
+  /*  RetornarValorTotalProdutos(): number {
     let valor = 0;
     this.PreVenda.listaPrevendaItem.forEach((element) => {
       this.valorTotal = 0;
@@ -497,14 +461,13 @@ export class AttendanceCartPage implements OnInit {
       valor += element.nValTot;
     });
     return valor;
-  }
+  } */
 
   calcularTotalVenda() {
     const { valorFinal, valorTotalTroca, valorTotalProdutos } =
       this.preVendaService.calcularTotalVenda(
         this.PreVenda,
         this.selectValorDesc,
-        this.percentMaxDesc,
         this.sFlgDecimalQtdProd
       );
 
@@ -514,7 +477,7 @@ export class AttendanceCartPage implements OnInit {
     this.alteraEstilo = valorFinal < valorTotalTroca;
   }
 
-  calcularTotalVenda_old() {
+  /*   calcularTotalVenda_old() {
     this.valorTotal = 0;
     this.valorTotalTroca = 0;
 
@@ -545,12 +508,12 @@ export class AttendanceCartPage implements OnInit {
       console.log('calculo balança digital', ValorTotalProdutos);
     }
 
-    /* this.PreVenda.nValVenda = ValorTotalProdutos; */
+
     this.PreVenda.nValVenda = ValorTotalProdutos;
     this.PreVenda.nValTroca = valorTotalTroca;
     console.log(this.PreVenda.nValVenda);
     console.log('valor total', this.valorTotal);
-    // refatorar este método, pos está com duas responsabilidades , depois refatorar e só chama lo dentro da função!
+  
 
     if (this.selectValorDesc) {
       if (
@@ -568,7 +531,7 @@ export class AttendanceCartPage implements OnInit {
         this.selectValorDesc.tipo === 'valor' &&
         typeof this.selectValorDesc.desconto !== 'undefined'
       ) {
-        // só um teste mas da pra não repetir esse código abaixo;
+      
         this.valorDescontoPermitido =
           (this.percentMaxDesc / 100) * this.RetornarValorTotalProdutos();
         console.log(
@@ -577,14 +540,9 @@ export class AttendanceCartPage implements OnInit {
         );
         this.valorTotal = this.valorTotal - this.selectValorDesc.desconto;
         this.descontoJaAplicado = true;
-        /* if (typeof this.selectValorDesc.desconto !== 'undefined') {
-          console.log('cai no case');
-          this.valorTotal = this.valorTotal - this.selectValorDesc.desconto;
-          this.descontoJaAplicado = true;
-        } */
+        
       } else if (
-        this.selectValorDesc.tipo === 'porcentagem' /* &&
-        typeof this.selectValorDesc.desconto !== 'undefined' */
+        this.selectValorDesc.tipo === 'porcentagem' 
       ) {
         this.valorDescontoPermitido =
           (this.percentMaxDesc / 100) * this.RetornarValorTotalProdutos();
@@ -602,9 +560,9 @@ export class AttendanceCartPage implements OnInit {
         this.descontoJaAplicado = true;
       }
     }
-  }
+  } */
 
-  addQuantidade(iCodProduto: number) {
+  /* addQuantidade(iCodProduto: number) {
     if (this.PreVenda.nValDesconto > 0 && this.openedFromModal === true) {
       this.PreVenda.nValDesconto = 0;
       console.log(
@@ -619,10 +577,94 @@ export class AttendanceCartPage implements OnInit {
         element.nQtdProduto = element.nQtdProduto + 1;
       }
     });
-    this.RetornarValorTotalProdutos();
+    this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
+    this.calcularTotalVenda();
+  } */
+
+  addQuantidade(iCodProduto: number) {
+    // zerando o estado do desconto pra manipulalo no PreVendaService .
+
+    this.selectValorDesc = { tipo: '', desconto: 0 };
+
+    const result = this.preVendaService.addQuantidade(
+      iCodProduto,
+      this.PreVenda,
+      this.openedFromModal,
+      this.descontoJaAplicado
+    );
+    console.log(result.preVenda);
+    this.PreVenda = result.preVenda;
+    this.descontoJaAplicado = result.limparDesconto;
+
+    // Se o desconto foi removido, mostra um toast
+
+    if (this.descontoJaAplicado === true) {
+      presentToast(this.toastController, 'DESCONTO REMOVIDO', 'top');
+      this.calcularTotalVenda();
+      this.descontoJaAplicado = false;
+      console.log(this.PreVenda);
+    }
+    this.calcularTotalVenda();
+
+    // Recalcula o total de venda
+  }
+
+  async removeQuatidade(iCodProduto: number, index: number) {
+    // Chama o service para a lógica de remoção da quantidade
+    const { preVenda, descontoAplicado } =
+      await this.preVendaService.removeQuantidade(
+        iCodProduto,
+        this.PreVenda,
+        index,
+        this.openedFromModal,
+        this.descontoJaAplicado
+      );
+
+    // Atualiza as variáveis locais com os valores retornados do service
+    this.PreVenda = preVenda;
+    this.descontoJaAplicado = descontoAplicado;
+
+    // Se o produto tiver apenas 1 unidade, confirmar remoção
+    const produto = this.PreVenda.listaPrevendaItem.find(
+      (p) => p.iCodProduto === iCodProduto && p.nQtdProduto === 1
+    );
+    if (produto) {
+      const alert = await this.alertController.create({
+        header: 'Confirmar',
+        message: 'Deseja Remover o produto do carrinho?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'OK',
+            handler: () => {
+              // Remove o produto e atualiza o total
+              this.PreVenda.listaPrevendaItem.splice(index, 1);
+              this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
+              this.preVendaService.calcularTotalVenda(
+                this.PreVenda,
+                { tipo: '', desconto: 0 },
+                this.PreVenda.sFlgDecimalQtdProd
+              );
+            },
+          },
+        ],
+      });
+      await alert.present();
+    } else {
+      // Se não foi necessário remover o produto, apenas atualiza o total
+      this.preVendaService.calcularTotalVenda(
+        this.PreVenda,
+        { tipo: '', desconto: 0 },
+        this.PreVenda.sFlgDecimalQtdProd
+      );
+    }
     this.calcularTotalVenda();
   }
-  async removeQuatidade(iCodProduto: number, index: number) {
+
+  /*   async removeQuatidade(iCodProduto: number, index: number) {
     if (this.PreVenda.nValDesconto > 0 && this.openedFromModal === true) {
       this.PreVenda.nValDesconto = 0;
       console.log(
@@ -651,7 +693,9 @@ export class AttendanceCartPage implements OnInit {
                 text: 'OK',
                 handler: () => {
                   this.PreVenda.listaPrevendaItem.splice(index, 1);
-                  this.RetornarValorTotalProdutos();
+                  this.preVendaService.RetornarValorTotalProdutos(
+                    this.PreVenda
+                  );
                   this.calcularTotalVenda();
                   // Limpar a lista e outras variáveis aqui
                 },
@@ -664,7 +708,7 @@ export class AttendanceCartPage implements OnInit {
     });
 
     this.calcularTotalVenda();
-  }
+  } */
   obterImpressora() {
     const infoConfig = localStorage.getItem('config');
     if (infoConfig) {
@@ -731,7 +775,7 @@ export class AttendanceCartPage implements OnInit {
           // Calcula o valor do desconto em porcentagem
           let valorDesconto =
             (this.selectValorDesc.desconto / 100) *
-            this.RetornarValorTotalProdutos();
+            this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
 
           console.log('teste valor desconto em relação a qtd %', valorDesconto);
           this.PreVenda.nValDesconto = valorDesconto;
@@ -1098,7 +1142,7 @@ export class AttendanceCartPage implements OnInit {
               this.PreVenda.listaPrevendaItem.push(this.PreVendaItem);
             }
           }
-          this.RetornarValorTotalProdutos();
+          this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
           this.sRef = '';
         } else {
           presentToast(
