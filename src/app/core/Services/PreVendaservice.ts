@@ -16,6 +16,13 @@ export class PreVendaService {
     private PreVendaItemHttp: PreVendaitemHttpRepository
   ) {}
 
+  adicionarPreVenda(preVenda: PreVenda) {
+    return this.preVendaHttp.salvarPreVenda(preVenda);
+  }
+  alterarPreVenda(preVenda: PreVenda) {
+    return this.preVendaHttp.alterarPreVenda(preVenda);
+  }
+
   listarTodasPreVenda() {
     return this.preVendaHttp.listarTodasAsPreVendas();
   }
@@ -87,7 +94,7 @@ export class PreVendaService {
   async removeQuantidade(
     iCodProduto: number,
     preVenda: PreVenda,
-    index: number,
+    valorTotaldosProdutos: number,
     openedFromModal: boolean,
     descontoAplicado: boolean
   ): Promise<{ preVenda: PreVenda; descontoAplicado: boolean }> {
@@ -199,6 +206,7 @@ export class PreVendaService {
     });
 
     console.log('Valor total dos produtos:', valorTotal);
+
     return valorTotal;
   }
 
@@ -212,12 +220,33 @@ export class PreVendaService {
   }
 
   verificaDescontoPermitido(
-    valorDescontoMaximo: number,
-    descontoConvertido: number
+    selectValorDesc: { tipo: string; desconto: number },
+    percentMaximoPermitido: number,
+    preVenda: PreVenda
   ) {
-    if (valorDescontoMaximo > descontoConvertido) {
+    console.log(
+      selectValorDesc,
+      percentMaximoPermitido,
+      preVenda,
+      'verify no service'
+    );
+    if (selectValorDesc?.tipo === '' || selectValorDesc === undefined) {
       return true;
     }
+    if (selectValorDesc?.tipo === 'valor') {
+      let percentMaximoDecimal = percentMaximoPermitido / 10;
+      let valorDescontoMaximo =
+        this.RetornarValorTotalProdutos(preVenda) * percentMaximoDecimal;
+      console.log(valorDescontoMaximo, selectValorDesc.desconto);
+      return selectValorDesc.desconto < valorDescontoMaximo;
+    }
+    if (selectValorDesc?.tipo === 'porcentagem') {
+      let valorDescontoConvertido = selectValorDesc?.desconto / 10;
+      console.log(valorDescontoConvertido, percentMaximoPermitido);
+
+      return valorDescontoConvertido < percentMaximoPermitido;
+    }
+
     return false;
   }
 

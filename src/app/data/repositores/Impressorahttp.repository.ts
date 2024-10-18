@@ -20,8 +20,6 @@ export class ImpressoraRepositoryHttp implements ImpressoraGateway {
     }
   }
   obterImpressora(): Observable<Impressora[]> {
-    console.log('bateu aqui', this.ipServer, this.iCodLoja);
-
     let url = `http://${this.ipServer}/api/ObterImpressora?iCodLoja=${this.iCodLoja}`;
     let data: Observable<any> = this.http.get(url);
 

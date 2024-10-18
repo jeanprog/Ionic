@@ -21,16 +21,18 @@ export class PreVendaHttpRepository implements preVendaGateway {
       console.error('Não foi possível obter as configurações da loja.');
     }
   }
+
+  salvarPreVenda(preVenda: PreVenda): Observable<PreVenda> {
+    const url = `http://${this.ipServer}/api/SalvarPreVenda`;
+    return this.http.post<PreVenda>(url, preVenda);
+  }
+
   listarPreVendasVendedor(iCodVendedor: number): Observable<PreVenda[]> {
     return this.http.get<PreVenda[]>(
       `http://${this.ipServer}/api/PreVendaVendedor?iCodVendedor=${iCodVendedor}`
     );
   }
 
-  adicionarPreVenda(): Observable<PreVenda> {
-    console.log(this.lojaConfig);
-    throw new Error('Method not implemented.');
-  }
   listarTodasAsPreVendas(): Observable<PreVenda[]> {
     return this.http
       .get<PreVenda[]>(`http://${this.ipServer}/api/prevenda`)
@@ -45,7 +47,9 @@ export class PreVendaHttpRepository implements preVendaGateway {
     // Retornando um Observable vazio só como exemplo, ajuste conforme necessário
     return of([]); // Placeholder
   }
-  alterarPreVenda(): Observable<PreVenda> {
-    throw new Error('Method not implemented.');
+  alterarPreVenda(preVenda: PreVenda): Observable<PreVenda> {
+    const url = `http://${this.ipServer}/api/UpdatePreVenda`;
+    console.log('teste da saida final', preVenda);
+    return this.http.post<PreVenda>(url, preVenda);
   }
 }

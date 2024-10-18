@@ -127,6 +127,7 @@ export class AttendanceCartPage implements OnInit {
     this.iCodCaixa = this.paramsLoja.iCodCaixa;
     this.sFlgDecimalQtdProd = this.paramsLoja.parametros.sFlgDecimalQtdProd;
     this.imprimiPreVenda = this.regrasPadrao.preSales;
+
     /*  'N';  */
     // variavel que define se o modal será de preenchido com informaçoes
     if (this.openedFromModal) {
@@ -366,9 +367,12 @@ export class AttendanceCartPage implements OnInit {
 
     if (this.userSeller === true) {
       this.sNomeFunc = this.lojaConfig.getParamsLoja().sApelido;
+      this.iCodFunc = this.paramsLoja.iCodVendedorPadrao;
     }
 
     if (icodVendedorPadrao > 0) {
+      // aqui tbm assinar o vendedor padrão !
+
       this.paramSellerDefault = true;
       this.sNomeFunc =
         this.lojaConfig.getParamsLoja().parametros.sApelidoVendedorPadrao;
@@ -443,28 +447,6 @@ export class AttendanceCartPage implements OnInit {
     await alert.present();
   }
 
-  /*  RetornarValorTotalProdutos(): number {
-    let valor = 0;
-    this.PreVenda.listaPrevendaItem.forEach((element) => {
-      this.valorTotal = 0;
-      element.nValTot = element.nValUnit * element.nQtdProduto;
-      valor += element.nValTot;
-    });
-    console.log('valor total dos produtos', this.valorTotal);
-    this.valorTotal = valor;
-
-    return valor;
-  }
-  RetornaValorTotalTroca() {
-    let valor = 0;
-    this.PreVenda.listaPrevendaItemTroca.forEach((element) => {
-      this.valorTotal = 0;
-      element.nValTot = element.nValUnit * element.nQtdProduto;
-      valor += element.nValTot;
-    });
-    return valor;
-  } */
-
   calcularTotalVenda() {
     const { valorFinal, valorTotalTroca, valorTotalProdutos } =
       this.preVendaService.calcularTotalVenda(
@@ -478,110 +460,6 @@ export class AttendanceCartPage implements OnInit {
     this.valorTotaldosProdutos = valorTotalProdutos;
     this.alteraEstilo = valorFinal < valorTotalTroca;
   }
-
-  /*   calcularTotalVenda_old() {
-    this.valorTotal = 0;
-    this.valorTotalTroca = 0;
-
-    let ValorTotalProdutos = this.RetornarValorTotalProdutos();
-    let valorTotalTroca = this.RetornaValorTotalTroca();
-
-    console.log('troca:', valorTotalTroca, 'produto:', ValorTotalProdutos);
-    if (ValorTotalProdutos >= valorTotalTroca) {
-      console.log('estou nesa condição');
-      this.valorTotal = ValorTotalProdutos - valorTotalTroca;
-      this.alteraEstilo = false;
-      console.log(this.valorTotal, 'saida quando cai na condição problemática');
-    } else {
-      this.valorTotal = valorTotalTroca - ValorTotalProdutos;
-      this.alteraEstilo = true;
-      console.log(
-        this.valorTotal,
-        'saida quando cai na condição problemática 2 '
-      );
-    }
-    if (this.PreVenda.nValDesconto > 0) {
-      this.valorTotal = this.valorTotal - this.PreVenda.nValDesconto;
-    }
-
-    console.log('função de calcular', this.PreVenda.nValDesconto);
-    if (this.sFlgDecimalQtdProd === 'S') {
-      let ValorTotalProdutos = this.RetornarValorTotalProdutos();
-      console.log('calculo balança digital', ValorTotalProdutos);
-    }
-
-
-    this.PreVenda.nValVenda = ValorTotalProdutos;
-    this.PreVenda.nValTroca = valorTotalTroca;
-    console.log(this.PreVenda.nValVenda);
-    console.log('valor total', this.valorTotal);
-  
-
-    if (this.selectValorDesc) {
-      if (
-        typeof this.selectValorDesc.desconto === 'undefined' &&
-        this.descontoJaAplicado === true
-      ) {
-        this.PreVenda.nValDesconto = 0;
-        this.valorTotal = this.valorTotal - this.PreVenda.nValDesconto;
-        this.PreVenda.nValVenda = this.valorTotal;
-        this.descontoJaAplicado = false;
-        console.log('neste case soltar o toast', this.valorTotal);
-        presentToast(this.toastController, 'DESCONTO ZERADO', 'top');
-      }
-      if (
-        this.selectValorDesc.tipo === 'valor' &&
-        typeof this.selectValorDesc.desconto !== 'undefined'
-      ) {
-      
-        this.valorDescontoPermitido =
-          (this.percentMaxDesc / 100) * this.RetornarValorTotalProdutos();
-        console.log(
-          'testando a porcentagem max desc',
-          this.valorDescontoPermitido
-        );
-        this.valorTotal = this.valorTotal - this.selectValorDesc.desconto;
-        this.descontoJaAplicado = true;
-        
-      } else if (
-        this.selectValorDesc.tipo === 'porcentagem' 
-      ) {
-        this.valorDescontoPermitido =
-          (this.percentMaxDesc / 100) * this.RetornarValorTotalProdutos();
-        console.log(
-          'testando a porcentagem max desc',
-          this.valorDescontoPermitido
-        );
-        let descontoConvertido =
-          (this.selectValorDesc.desconto / 100) * this.valorTotal;
-        console.log(
-          'testando valor convertido da porcetagem pelo user',
-          descontoConvertido
-        );
-        this.valorTotal = this.valorTotal - descontoConvertido;
-        this.descontoJaAplicado = true;
-      }
-    }
-  } */
-
-  /* addQuantidade(iCodProduto: number) {
-    if (this.PreVenda.nValDesconto > 0 && this.openedFromModal === true) {
-      this.PreVenda.nValDesconto = 0;
-      console.log(
-        'verificando valor aqui na hora de preencher a variavel',
-        this.PreVenda.nValDesconto
-      );
-      this.descontoJaAplicado = false;
-      presentToast(this.toastController, 'DESCONTO REMOVIDO', 'top');
-    }
-    this.PreVenda.listaPrevendaItem.forEach((element) => {
-      if (element.iCodProduto == iCodProduto) {
-        element.nQtdProduto = element.nQtdProduto + 1;
-      }
-    });
-    this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
-    this.calcularTotalVenda();
-  } */
 
   addQuantidade(iCodProduto: number) {
     // zerando o estado do desconto pra manipulalo no PreVendaService .
@@ -666,51 +544,6 @@ export class AttendanceCartPage implements OnInit {
     this.calcularTotalVenda();
   }
 
-  /*   async removeQuatidade(iCodProduto: number, index: number) {
-    if (this.PreVenda.nValDesconto > 0 && this.openedFromModal === true) {
-      this.PreVenda.nValDesconto = 0;
-      console.log(
-        'verificando valor aqui na hora de preencher a variavel',
-        this.PreVenda.nValDesconto
-      );
-      this.descontoJaAplicado = false;
-      presentToast(this.toastController, 'DESCONTO REMOVIDO', 'top');
-    }
-    this.PreVenda.listaPrevendaItem.forEach(async (element) => {
-      if (element.iCodProduto == iCodProduto) {
-        if (element.nQtdProduto > 1) {
-          element.nQtdProduto = element.nQtdProduto - 1;
-        } else if (element.nQtdProduto === 1) {
-          console.log('estou aqui');
-
-          const alert = await this.alertController.create({
-            header: 'Confirmar',
-            message: 'Deseja Remover o produto do carrinho ? ',
-            buttons: [
-              {
-                text: 'Cancelar',
-                role: 'cancel',
-              },
-              {
-                text: 'OK',
-                handler: () => {
-                  this.PreVenda.listaPrevendaItem.splice(index, 1);
-                  this.preVendaService.RetornarValorTotalProdutos(
-                    this.PreVenda
-                  );
-                  this.calcularTotalVenda();
-                  // Limpar a lista e outras variáveis aqui
-                },
-              },
-            ],
-          });
-          await alert.present();
-        }
-      }
-    });
-
-    this.calcularTotalVenda();
-  } */
   obterImpressora() {
     this.impressoraService.obterImpressora().subscribe({
       next: (result) => {
@@ -748,151 +581,106 @@ export class AttendanceCartPage implements OnInit {
         element.iCodVendedor = this.PreVenda.iCodVendedor;
       });
 
-      // Verifica se o desconto é do tipo 'valor'
-      if (this.selectValorDesc) {
-        if (
-          this.selectValorDesc.tipo === 'valor' &&
-          this.selectValorDesc.desconto !== undefined
-        ) {
-          if (this.selectValorDesc.desconto <= this.valorDescontoPermitido) {
-            let valorDesconto = this.selectValorDesc.desconto;
-            console.log('atribuindo desconto a classe prevenda', valorDesconto);
-            this.PreVenda.nValDesconto = valorDesconto;
-
-            this.descontoJaAplicado = true;
-          } else {
-            presentToast(
-              this.toastController,
-              `DESCONTO MAX PERMITIDO É ${this.valorDescontoPermitido.toFixed(
-                2
-              )}`,
-              'bottom'
-            );
-            return;
-          }
-        }
-        if (
-          this.selectValorDesc.tipo === 'porcentagem' &&
-          this.selectValorDesc.desconto !== undefined
-        ) {
-          // Calcula o valor do desconto em porcentagem
-          let valorDesconto =
-            (this.selectValorDesc.desconto / 100) *
-            this.preVendaService.RetornarValorTotalProdutos(this.PreVenda);
-
-          console.log('teste valor desconto em relação a qtd %', valorDesconto);
-          this.PreVenda.nValDesconto = valorDesconto;
-
-          if (valorDesconto <= this.valorDescontoPermitido) {
-            this.PreVenda.nValDesconto = parseFloat(valorDesconto.toFixed(2));
-            this.descontoJaAplicado = true;
-
-            this.calcularTotalVenda();
-          } else {
-            presentToast(
-              this.toastController,
-              `PORCETAGEM MAX DE DESCONTO É ${this.percentMaxDesc}%`,
-              'bottom'
-            );
-            this.calcularTotalVenda();
-            return;
-          }
-        }
-      }
-
-      // Verifica se a utilPreVenda é verdadeira
-      console.log(this.PreVenda);
-      if (this.imprimiPreVenda === true) {
-        const alert = await this.alertController.create({
-          header: 'Confirmar',
-          message: ' Deseja imprimir pré-venda ? ',
-          buttons: [
-            {
-              text: 'Cancelar',
-              role: 'cancel',
-              handler: () => {
-                this.PreVenda.iImprimirPreVenda = 0;
-                this.onPostPreVenda();
-                this.deletaSerialMobile();
+      if (
+        this.preVendaService.verificaDescontoPermitido(
+          this.selectValorDesc,
+          this.percentMaxDesc,
+          this.PreVenda
+        ) === true
+      ) {
+        if (this.imprimiPreVenda === true) {
+          const alert = await this.alertController.create({
+            header: 'Confirmar',
+            message: ' Deseja imprimir pré-venda ? ',
+            buttons: [
+              {
+                text: 'Cancelar',
+                role: 'cancel',
+                handler: () => {
+                  this.PreVenda.iImprimirPreVenda = 0;
+                  this.onPostPreVenda();
+                  this.deletaSerialMobile();
+                },
               },
-            },
-            {
-              text: 'OK',
-              handler: () => {
-                this.PreVenda.iImprimirPreVenda = 1;
-                this.onPostPreVenda();
-                this.deletaSerialMobile();
-                console.log(
-                  'resultado tem que ser 1',
-                  'teste dentro do handler',
-                  this.PreVenda
-                );
+              {
+                text: 'OK',
+                handler: () => {
+                  this.PreVenda.iImprimirPreVenda = 1;
+                  this.onPostPreVenda();
+                  this.deletaSerialMobile();
+                  console.log(
+                    'resultado tem que ser 1',
+                    'teste dentro do handler',
+                    this.PreVenda
+                  );
+                },
               },
-            },
-          ],
-        });
-        await alert.present();
+            ],
+          });
+          await alert.present();
+        } else {
+          this.PreVenda.iImprimirPreVenda = 0;
+          this.onPostPreVenda();
+          this.deletaSerialMobile();
+        }
       } else {
-        this.PreVenda.iImprimirPreVenda = 0;
-        this.onPostPreVenda();
-        this.deletaSerialMobile();
+        //aqui podemos ajustar a logica pra exibir tbm o valor .
+        presentToast(
+          this.toastController,
+          `PORCETAGEM MAX DE DESCONTO É ${this.percentMaxDesc * 10}%`,
+          'bottom'
+        );
       }
+
+      this.calcularTotalVenda();
     } else {
-      // Caso nenhuma das condições seja atendida, mostra uma mensagem de erro
       presentToast(
         this.toastController,
         'Adicione um produto ou vendedor',
         'top'
       );
     }
-
-    // Calcula o total da venda
-    this.calcularTotalVenda();
   }
   onPostPreVenda() {
-    const infoConfig = localStorage.getItem('config');
-    if (infoConfig) {
-      const config = JSON.parse(infoConfig);
-      this.ipServer = config.ip;
-      this.checkoutPreVenda = config.checkoutPreVenda;
-    }
+    this.checkoutPreVenda = this.regrasPadrao.checkoutPreVenda;
 
+    console.log(this.PreVenda);
     if (this.openedFromModal === true && this.modeloTela === 'alteracao') {
-      const url = `http://${this.ipServer}/api/UpdatePreVenda`;
-      console.log('teste da saida final', this.PreVenda);
-      this.http.post(url, this.PreVenda).subscribe(() => {
-        presentToast(
-          this.toastController,
-          'PRE VENDA ALTERADA COM SUCESSO',
-          'top'
-        );
-        if (this.checkoutPreVenda === true) {
-          this.execCheckoutPreVenda().then(() => {
-            this.modalController.dismiss().then(() => {
-              /*    window.location.reload(); */
+      this.preVendaService.alterarPreVenda(this.PreVenda).subscribe({
+        next: () => {
+          presentToast(
+            this.toastController,
+            'PRE VENDA ALTERADA COM SUCESSO',
+            'top'
+          );
+          if (this.checkoutPreVenda === true) {
+            this.execCheckoutPreVenda().then(() => {
+              this.modalController.dismiss().then(() => {
+                window.location.reload();
+              });
             });
-          });
-        } else {
-          this.modalController.dismiss().then(() => {
-            window.location.reload();
-          });
-        }
+          } else {
+            this.modalController.dismiss().then(() => {});
+          }
+        },
       });
     } else {
-      const url = `http://${this.ipServer}/api/SalvarPreVenda`;
-      this.http.post(url, this.PreVenda).subscribe(() => {
-        presentToast(
-          this.toastController,
-          'PRE VENDA ADICIONADA COM SUCESSO',
-          'top'
-        );
-        if (this.checkoutPreVenda === true) {
-          this.execCheckoutPreVenda().then(() => {});
-        } else {
-          this.router.navigateByUrl('/before-sales').then(() => {
-            window.location.reload();
-          });
-        }
+      this.preVendaService.adicionarPreVenda(this.PreVenda).subscribe({
+        next: (result) => {
+          console.log(result);
+          presentToast(
+            this.toastController,
+            'PRE VENDA ADICIONADA COM SUCESSO',
+            'top'
+          );
+          if (this.checkoutPreVenda === true) {
+            this.execCheckoutPreVenda().then(() => {});
+          } else {
+            this.router.navigateByUrl('/before-sales').then(() => {
+              window.location.reload();
+            });
+          }
+        },
       });
     }
   }
@@ -1020,7 +808,8 @@ export class AttendanceCartPage implements OnInit {
           text: 'OK',
           handler: () => {
             this.router.navigateByUrl('/').then(() => {
-              window.location.reload();
+              this.preVendaService.listarTodasPreVenda();
+              /*  window.location.reload(); */
             });
           },
         },
