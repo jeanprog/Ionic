@@ -37,6 +37,7 @@ import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
 import { ProdutosService } from 'src/app/core/Services/Produtos.service';
 import { PreVendaService } from 'src/app/core/Services/PreVendaservice';
 import { Loja } from 'src/app/core/entities/Loja.entity';
+import { ImpressoraService } from 'src/app/core/Services/Impressora.service';
 
 @Component({
   selector: 'app-attendance-cart',
@@ -104,7 +105,8 @@ export class AttendanceCartPage implements OnInit {
     private BarcodeScanner: BarcodeScanner,
     private mobile: AcessoMobileService,
     private preVendaService: PreVendaService,
-    private lojaConfig: LojaConfig
+    private lojaConfig: LojaConfig,
+    private impressoraService: ImpressoraService
   ) {
     this.PreVenda = new PreVenda();
     this.PreVenda.listaPrevendaItem = [];
@@ -710,21 +712,22 @@ export class AttendanceCartPage implements OnInit {
     this.calcularTotalVenda();
   } */
   obterImpressora() {
-    const infoConfig = localStorage.getItem('config');
-    if (infoConfig) {
-      const config = JSON.parse(infoConfig);
-      this.ipServer = config.ip;
-
-      let url1 = `http://${this.ipServer}/api/ObterImpressora?iCodLoja=${this.iCodLoja}`;
-      let data2: Observable<any> = this.http.get(url1);
-      data2.subscribe((result) => {
-        console.log(result);
-        this.sCaminhoImpressora = result[0].sCaminho;
-        this.iModelo = result[0].iModelo;
-        this.iTipo = result[0].iTipo;
-        this.sEstado = result[0].sFlgSituacao;
-      });
-    }
+    this.impressoraService.obterImpressora().subscribe({
+      next: (result) => {
+        if (result.length > 0) {
+          const impressora = result[0]; // Pega a primeira impressora do array
+          this.sCaminhoImpressora = impressora.sCaminho;
+          this.iModelo = impressora.iModelo;
+          this.iTipo = impressora.iTipo;
+          this.sEstado = impressora.sFlgSituacao;
+        } else {
+          console.error('Nenhuma impressora encontrada');
+        }
+      },
+      error: () => {
+        throw new Error('impressora falhou');
+      },
+    });
   }
   async onSavePreVenda() {
     if (this.sNomeFunc !== null && this.PreVenda.listaPrevendaItem.length > 0) {
