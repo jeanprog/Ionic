@@ -5,6 +5,7 @@ import {
 } from 'src/app/data/interfaces/ImpressoraGateway';
 import { Impressora } from '../entities/Impressora.entity';
 import { Inject, Injectable } from '@angular/core';
+import { PreVenda } from '../entities/PreVenda.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +17,8 @@ export class ImpressoraService {
 
   obterImpressora(): Observable<Impressora[]> {
     return this.impressoraGateway.obterImpressora();
+  }
+  onImprimirPreVenda(preVenda: PreVenda) {
+    return this.impressoraGateway.onImprimirPreVenda(preVenda);
   }
 }

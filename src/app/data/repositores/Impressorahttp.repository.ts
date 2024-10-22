@@ -4,6 +4,7 @@ import { ImpressoraGateway } from '../interfaces/ImpressoraGateway';
 import { HttpClient } from '@angular/common/http';
 import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
 import { Injectable } from '@angular/core';
+import { PreVenda } from 'src/model/preVenda';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,10 @@ export class ImpressoraRepositoryHttp implements ImpressoraGateway {
       this.ipServer = configPadrao.ip;
       this.iCodLoja = paramsLoja.parametros.iCodLoja;
     }
+  }
+  onImprimirPreVenda(preVenda: PreVenda): Observable<Impressora> {
+    let url = `http://${this.ipServer}/api/ImprimirPreVendaImpressoraNaoFiscalEditar`;
+    return this.http.post<Impressora>(url, PreVenda /* {headers: headers} */);
   }
   obterImpressora(): Observable<Impressora[]> {
     let url = `http://${this.ipServer}/api/ObterImpressora?iCodLoja=${this.iCodLoja}`;

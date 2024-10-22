@@ -738,15 +738,15 @@ export class AttendanceCartPage implements OnInit {
   }
   onImprimirPreVenda() {
     try {
-      let url = `http://${this.ipServer}/api/ImprimirPreVendaImpressoraNaoFiscalEditar`;
       if (this.sCaminhoImpressora != '' && this.sEstado === 'A') {
         this.PreVenda.sCaminhoImpressora = this.sCaminhoImpressora;
         this.PreVenda.iModelo = this.iModelo;
         this.PreVenda.iTipo = this.iTipo;
-        let data: Observable<any> = this.http.post(
-          url,
-          this.PreVenda /* {headers: headers} */
-        );
+        this.impressoraService.onImprimirPreVenda(this.PreVenda).subscribe({
+          next: (result) => {
+            console.log(result);
+          },
+        });
       }
     } catch (error) {
       presentToast(
