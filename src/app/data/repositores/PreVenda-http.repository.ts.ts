@@ -12,11 +12,16 @@ import { LojaConfig } from 'src/app/auth/Lojasconfig.service';
 })
 export class PreVendaHttpRepository implements preVendaGateway {
   private ipServer!: string;
+  private iCodLoja!: number;
+  private iCodRede!: number;
   private lojaConfig = inject(LojaConfig);
   constructor(private http: HttpClient) {
     const configData = this.lojaConfig.getConfigLoja();
-    if (configData) {
+    const paramsLoja = this.lojaConfig.getParamsLoja();
+    if (configData && paramsLoja) {
       this.ipServer = configData?.ip;
+      this.iCodLoja = paramsLoja.parametros.iCodLoja;
+      this.iCodRede = paramsLoja.parametros.iCodRede;
     } else {
       console.error('Não foi possível obter as configurações da loja.');
     }
@@ -51,5 +56,14 @@ export class PreVendaHttpRepository implements preVendaGateway {
     const url = `http://${this.ipServer}/api/UpdatePreVenda`;
     console.log('teste da saida final', preVenda);
     return this.http.post<PreVenda>(url, preVenda);
+  }
+
+  consultaPreVendaRegistrada(
+    iSeqVendaDia: number,
+    iCodVenda: number
+  ): Observable<PreVenda[]> {
+    let url = `http://${this.ipServer}/api/ConsultarPreVenda?iCodLoja=${this.iCodLoja}&iCodVenda=${iCodVenda}&iSeqVendaDia=${iSeqVendaDia}&iCodRede=${this.iCodRede}`;
+    console.log(url);
+    return this.http.get<PreVenda[]>(url);
   }
 }

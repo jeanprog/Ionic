@@ -696,50 +696,45 @@ export class AttendanceCartPage implements OnInit {
 
     loading.present();
 
-    const infoConfig = localStorage.getItem('config');
-    if (infoConfig) {
-      const config = JSON.parse(infoConfig);
-      this.ipServer = config.ip;
-      let url = `http://${this.ipServer}/api/ConsultarPreVenda?iCodLoja=${this.iCodLoja}&iCodVenda=${this.iCodVenda}&iSeqVendaDia=${this.iSeqVendaDia}&iCodRede=${this.iCodRede}`;
-      console.log(url);
-      let data: Observable<any> = this.http.get(url);
-      data.subscribe((result) => {
-        this.PreVenda = result[0];
-        console.log('saida do data', this.PreVenda.listaPrevendaItemTroca);
+    this.preVendaService
+      .consultaPreVendaRegistrada(this.iSeqVendaDia, this.iCodVenda)
+      .subscribe({
+        next: (result: PreVenda[]) => {
+          console.log(result);
+          this.PreVenda = result[0];
+          console.log('saida do data', this.PreVenda.listaPrevendaItemTroca);
+          if (result[0].sNomeCliente != null || result[0] !== null) {
+            this.sNomeCliente = result[0].sNomeCliente;
 
-        if (result[0].sNomeCliente != null || result[0] !== null) {
-          this.sNomeCliente = result[0].sNomeCliente;
+            this.sNomeFunc = result[0].sApelido;
 
-          this.sNomeFunc = result[0].sApelido;
+            /*   this.iCodVendedorPadrao = AppModule.iCodVendedorPadrao; */
 
-          /*   this.iCodVendedorPadrao = AppModule.iCodVendedorPadrao; */
+            //PreVenda
+            this.PreVenda.iCodLoja = this.iCodLoja;
+            this.PreVenda.iCodCaixa = this.iCodCaixa;
+            this.iCodFunc =
+              this.PreVenda.listaPrevendaItem.find((icod) => icod.iCodVendedor)
+                ?.iCodVendedor || null;
+            this.qtdFracionadaTelaAlteracao =
+              this.PreVenda.listaPrevendaItem.find((item) => item.nQtdProduto)
+                ?.nQtdProduto || null;
 
-          //PreVenda
-          this.PreVenda.iCodLoja = this.iCodLoja;
-          this.PreVenda.iCodCaixa = this.iCodCaixa;
-          this.iCodFunc =
-            this.PreVenda.listaPrevendaItem.find((icod) => icod.iCodVendedor)
-              ?.iCodVendedor || null;
-          this.qtdFracionadaTelaAlteracao =
-            this.PreVenda.listaPrevendaItem.find((item) => item.nQtdProduto)
-              ?.nQtdProduto || null;
+            this.sCodPessoa = result[0].sCodPessoa;
+            console.log(
+              'verificando sainda aqui',
+              this.qtdFracionadaTelaAlteracao
 
-          this.sCodPessoa = result[0].sCodPessoa;
-          console.log(
-            'verificando sainda aqui',
-            this.qtdFracionadaTelaAlteracao
+              /*  this.PreVendaItem.bBalancaDigital */
+            );
+            this.lista = this.PreVenda.listaPrevendaItemTroca;
+            console.log('props', this.lista);
 
-            /*  this.PreVendaItem.bBalancaDigital */
-          );
-          this.lista = this.PreVenda.listaPrevendaItemTroca;
-          console.log('props', this.lista);
-
-          this.calcularTotalVenda();
-        }
-
-        loading.dismiss();
+            this.calcularTotalVenda();
+            loading.dismiss();
+          }
+        },
       });
-    }
   }
   onImprimirPreVenda() {
     try {
@@ -970,6 +965,7 @@ export class AttendanceCartPage implements OnInit {
           sTatetTroca: this.StateTroca,
         },
       });
+
       modal.onWillDismiss().then((data) => {
         if (data.data) {
           this.PreVenda.listaPrevendaItemTroca = data.data;

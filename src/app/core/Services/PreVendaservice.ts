@@ -16,6 +16,13 @@ export class PreVendaService {
     private PreVendaItemHttp: PreVendaitemHttpRepository
   ) {}
 
+  consultaPreVendaRegistrada(iSeqVendaDia: number, iCodVenda: number) {
+    return this.preVendaHttp.consultaPreVendaRegistrada(
+      iSeqVendaDia,
+      iCodVenda
+    );
+  }
+
   adicionarPreVenda(preVenda: PreVenda) {
     return this.preVendaHttp.salvarPreVenda(preVenda);
   }

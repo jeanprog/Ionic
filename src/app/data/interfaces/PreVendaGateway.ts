@@ -8,4 +8,9 @@ export default interface preVendaGateway {
   salvarPreVenda(preVenda: PreVenda): Observable<PreVenda>;
 
   alterarPreVenda(preVenda: PreVenda): Observable<PreVenda>;
+
+  consultaPreVendaRegistrada(
+    iSeqVendaDia: number,
+    iCodVenda: number
+  ): Observable<PreVenda[]>;
 }
